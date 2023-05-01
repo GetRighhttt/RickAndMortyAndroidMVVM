@@ -1,4 +1,4 @@
-package com.example.rickandmortymvvm.presentation
+package com.example.rickandmortymvvm.presentation.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

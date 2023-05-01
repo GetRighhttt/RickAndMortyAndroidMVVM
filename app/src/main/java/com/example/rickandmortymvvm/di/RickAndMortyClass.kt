@@ -1,10 +1,15 @@
 package com.example.rickandmortymvvm.di
 
-import dagger.Module
-import dagger.hilt.InstallIn
+import com.example.rickandmortymvvm.data.api.RetrofitInstance
+import com.example.rickandmortymvvm.data.api.RickAndMortyApiService
+import dagger.Provides
 import dagger.hilt.android.HiltAndroidApp
-import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @HiltAndroidApp
 object RickAndMortyClass {
+
+    @Singleton
+    @Provides
+    fun provideRickAndMortyApiService(): RickAndMortyApiService = RetrofitInstance.retrofit
 }
