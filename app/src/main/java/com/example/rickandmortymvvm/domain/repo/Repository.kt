@@ -1,4 +1,26 @@
 package com.example.rickandmortymvvm.domain.repo
 
-interface Repository {
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.liveData
+import com.example.rickandmortymvvm.data.RMPagingSource
+import com.example.rickandmortymvvm.data.api.RickAndMortyApiService
+import com.example.rickandmortymvvm.domain.model.RickAndMorty
+import java.util.concurrent.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class Repository @Inject constructor(
+    private val rickAndMortyApiService: RickAndMortyApiService
+) {
+    suspend fun searchAllCharacters(query: String) =
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                maxSize = 100,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query) }
+        ).flow
 }

@@ -1,4 +1,37 @@
 package com.example.rickandmortymvvm.presentation.viewmodel
 
-class RickAndMortyViewModel {
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import com.example.rickandmortymvvm.core.events.SearchEvent
+import com.example.rickandmortymvvm.domain.repo.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.switchMap
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@OptIn(ExperimentalCoroutinesApi::class)
+@HiltViewModel
+class RickAndMortyViewModel @Inject constructor(
+    private val repository: Repository
+) : ViewModel() {
+    private val _currentQuery = MutableStateFlow<String>(DEFAULT_QUERY)
+    val currentQuery: StateFlow<String> get() = _currentQuery
+
+    companion object {
+        private const val DEFAULT_QUERY = "Rick"
+    }
+
+    val rickAndMortyResults = _currentQuery.flatMapLatest { queryString ->
+        repository.searchAllCharacters(queryString).cachedIn(viewModelScope)
+    }
+
+    fun searchCharacters(query: String) = viewModelScope.launch {
+        _currentQuery.value = query
+    }
 }

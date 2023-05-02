@@ -5,11 +5,13 @@ import androidx.paging.PagingState
 import com.example.rickandmortymvvm.core.util.Constants
 import com.example.rickandmortymvvm.data.api.RickAndMortyApiService
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
+import retrofit2.HttpException
+import java.io.IOException
 
-class PagingSource (
-    private val apiService: RickAndMortyApiService
+class RMPagingSource(
+    private val apiService: RickAndMortyApiService,
+    private val query: String
 ) : PagingSource<Int, RickAndMorty>() {
-
     override fun getRefreshKey(state: PagingState<Int, RickAndMorty>): Int? {
         return null
     }
@@ -17,21 +19,23 @@ class PagingSource (
     override suspend fun load(params: LoadParams<Int>):
             androidx.paging.PagingSource.LoadResult<Int, RickAndMorty> {
 
-        return try {
-            val currentPage = params.key ?: Constants.STARTING_PAGE_INDEX
-            val response = apiService.getAllCharacters(currentPage)
-            val responseData = mutableListOf<RickAndMorty>()
-            val data = response.body()?.results ?: emptyList()
-            responseData.addAll(data)
+        val currentPage = params.key ?: Constants.STARTING_PAGE_INDEX
 
-            androidx.paging.PagingSource.LoadResult.Page(
+        return try {
+            val response = apiService.searchAllCharacters(query, currentPage)
+            val responseData = mutableListOf<RickAndMorty>()
+            val results = response.body()?.results ?: emptyList()
+            responseData.addAll(results)
+
+            LoadResult.Page(
                 data = responseData,
                 prevKey = if (currentPage == 1) null else -1,
-                nextKey = currentPage.plus(1)
+                nextKey = if(results.isEmpty()) null else currentPage.plus(1)
             )
-        } catch (e: Exception) {
-            androidx.paging.PagingSource.LoadResult.Error(e)
+        } catch (e: IOException) { // no internet connection, etc.
+            LoadResult.Error(e)
+        } catch (e: HttpException) { // http status code exception
+            LoadResult.Error(e)
         }
-
     }
 }

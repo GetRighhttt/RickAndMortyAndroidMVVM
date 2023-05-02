@@ -1,6 +1,6 @@
 package com.example.rickandmortymvvm.data.api
 
-import com.example.rickandmortymvvm.domain.model.InfoRM
+import com.example.rickandmortymvvm.domain.model.RickAndMortyTotalResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -8,12 +8,8 @@ import retrofit2.http.Query
 interface RickAndMortyApiService {
 
     @GET("characters")
-    suspend fun getAllCharacters(
+    suspend fun searchAllCharacters(
+        @Query("query") query: String,
         @Query("page") page: Int
-    ): Response<Any>
-
-    @GET("characters")
-    suspend fun filterCharactersByName(
-        @Query("name") query: String
-    ): Response<InfoRM>
+    ): Response<RickAndMortyTotalResponse>
 }

@@ -16,18 +16,24 @@ object RetrofitInstance {
 
         val client = OkHttpClient.Builder().apply {
             this.addInterceptor(interceptor)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .writeTimeout(25, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
         }.build()
         return client
     }
 
     private val gson: GsonConverterFactory = GsonConverterFactory.create()
-    val retrofit: RickAndMortyApiService = Retrofit.Builder()
+    val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
         .addConverterFactory(gson)
         .client(provideHttpInterceptor())
         .build()
-        .create(RickAndMortyApiService::class.java)
+
+    /*
+    Lazily initialize retrofit instance when it needs to be called.
+     */
+    val rickAndMortyService : RickAndMortyApiService by lazy {
+        retrofit.create(RickAndMortyApiService::class.java)
+    }
 }
