@@ -1,19 +1,16 @@
 package com.example.rickandmortymvvm.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.rickandmortymvvm.core.events.SearchEvent
 import com.example.rickandmortymvvm.domain.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.switchMap
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -33,6 +30,10 @@ class RickAndMortyViewModel @Inject constructor(
     }
 
     fun searchCharacters(query: String) = viewModelScope.launch {
-        currentQuery.value = query
+        try {
+            currentQuery.value = query
+        } catch (e: HttpException) {
+            Log.d("VIEW_MODEL", "${e.printStackTrace()}")
+        }
     }
 }

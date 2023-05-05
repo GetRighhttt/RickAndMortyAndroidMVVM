@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -19,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+
 
 @AndroidEntryPoint
 class RickAndMortyActivity : AppCompatActivity() {
@@ -38,6 +40,7 @@ class RickAndMortyActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initRecyclerViewAndLoadStateAdapter()
+        setupSearchView()
         collectRickAndMortyResults()
         backPressed()
     }
@@ -87,9 +90,25 @@ class RickAndMortyActivity : AppCompatActivity() {
                 GridLayoutManager.VERTICAL
             )
             hasFixedSize()
-        }.also {
-            it.smoothScrollToPosition(0)
         }
+    }
+
+    private fun setupSearchView() = binding.rmSearchView.apply {
+        setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                if (query != null) {
+                    binding.rvRmList.smoothScrollToPosition(0)
+                    viewModel.searchCharacters(query)
+                    clearFocus()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
     }
 
     private fun backPressed() = onBackPressedDispatcher.addCallback(
