@@ -9,7 +9,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.databinding.ActivityRickAndMortyBinding
@@ -38,7 +37,7 @@ class RickAndMortyActivity : AppCompatActivity() {
         _binding = ActivityRickAndMortyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initRecyclerView()
+        initRecyclerViewAndLoadStateAdapter()
         collectRickAndMortyResults()
         backPressed()
     }
@@ -76,10 +75,13 @@ class RickAndMortyActivity : AppCompatActivity() {
         }
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerViewAndLoadStateAdapter() {
         binding.rvRmList.apply {
             rmAdapter = RickAndMortyAdapter(this@RickAndMortyActivity)
-            adapter = rmAdapter
+            adapter = rmAdapter.withLoadStateHeaderAndFooter(
+                header = RMLoadStateAdapter { rmAdapter.retry() }, // paging3 retry method
+                footer = RMLoadStateAdapter { rmAdapter.retry() },
+            )
             layoutManager = StaggeredGridLayoutManager(
                 2,
                 GridLayoutManager.VERTICAL

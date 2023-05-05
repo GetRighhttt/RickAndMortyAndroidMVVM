@@ -8,4 +8,6 @@
     <string name="species">SPECIES</string>
     <string name="status">STATUS</string>
     <string name="url">URL</string>
+    <string name="results_failed_to_load">Results failed to load...</string>
+    <string name="retry">Retry</string>
 </resources>
