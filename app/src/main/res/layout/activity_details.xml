@@ -61,7 +61,7 @@
             android:id="@+id/iv_Image"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_margin="5dp"
+            android:layout_margin="15dp"
             android:contentDescription="@string/image" />
 
         <com.google.android.material.textview.MaterialTextView
