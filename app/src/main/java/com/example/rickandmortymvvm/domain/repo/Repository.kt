@@ -5,8 +5,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.example.rickandmortymvvm.data.RMPagingSource
 import com.example.rickandmortymvvm.data.api.RickAndMortyApiService
-import com.example.rickandmortymvvm.domain.model.RickAndMorty
-import java.util.concurrent.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 

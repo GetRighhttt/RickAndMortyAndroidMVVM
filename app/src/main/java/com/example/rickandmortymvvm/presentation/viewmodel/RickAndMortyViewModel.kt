@@ -25,7 +25,7 @@ class RickAndMortyViewModel @Inject constructor(
     private val currentQuery = MutableLiveData(DEFAULT_QUERY)
 
     companion object {
-        private const val DEFAULT_QUERY = "rick"
+        private const val DEFAULT_QUERY = ""
     }
 
     init {
