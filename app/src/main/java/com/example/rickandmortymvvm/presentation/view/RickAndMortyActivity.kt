@@ -9,7 +9,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.databinding.ActivityRickAndMortyBinding
@@ -42,14 +44,13 @@ class RickAndMortyActivity : AppCompatActivity() {
         initRecyclerViewAndLoadStateAdapter()
         setupSearchView()
         collectRickAndMortyResults()
+        addLoadStateListener()
         backPressed()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun collectRickAndMortyResults() = lifecycleScope.launch {
         binding.apply {
-            pbRm.visibility = View.VISIBLE
-            delay(800)
             viewModel.rickAndMortyResults.observe(this@RickAndMortyActivity) {
                 try {
                     rmAdapter.notifyDataSetChanged()
@@ -90,6 +91,15 @@ class RickAndMortyActivity : AppCompatActivity() {
                 GridLayoutManager.VERTICAL
             )
             hasFixedSize()
+        }
+    }
+
+    private fun addLoadStateListener() {
+        rmAdapter.addLoadStateListener { loadState ->
+            binding.apply {
+                pbRm.isVisible = loadState.source.refresh is LoadState.Loading
+                rvRmList.isVisible = loadState.source.refresh is LoadState.NotLoading
+            }
         }
     }
 
