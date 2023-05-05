@@ -51,14 +51,8 @@ class RickAndMortyAdapter(
                 // scale and transform image to our needs using Glide.
                 Glide.with(rmImage.context)
                     .load(rmUser.image)
-                    .apply(
-                        RequestOptions().transform(
-                            RoundedCorners(10)
-                        )
-                    )
                     .placeholder(R.drawable.baseline_person_24)
-                    .fitCenter()
-                    .optionalCenterCrop()
+                    .circleCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(rmImage)
 

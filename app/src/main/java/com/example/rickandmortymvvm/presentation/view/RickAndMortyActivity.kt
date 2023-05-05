@@ -17,6 +17,7 @@ import com.example.rickandmortymvvm.presentation.viewmodel.RickAndMortyViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -27,6 +28,10 @@ class RickAndMortyActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     private val viewModel: RickAndMortyViewModel by viewModels()
     private lateinit var rmAdapter: RickAndMortyAdapter
+
+    companion object {
+        const val EXTRA_MAIN = "EXTRA_MAIN"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +47,25 @@ class RickAndMortyActivity : AppCompatActivity() {
     private fun collectRickAndMortyResults() = lifecycleScope.launch {
         binding.apply {
             pbRm.visibility = View.VISIBLE
+            delay(800)
             viewModel.rickAndMortyResults.observe(this@RickAndMortyActivity) {
                 try {
                     rmAdapter.notifyDataSetChanged()
                     rmAdapter.submitData(lifecycle, it)
+
+                    rmAdapter.setOnItemClickListener {
+                        val detailIntent =
+                            Intent(
+                                this@RickAndMortyActivity,
+                                DetailsActivity::class.java
+                            )
+                        val bundle = Bundle().apply {
+                            detailIntent.putExtra(EXTRA_MAIN, it)
+                        }
+                        startActivity(detailIntent)
+                        finish()
+                    }
+
                     createSnackBar("Data successfully fetched!")
                     pbRm.visibility = View.GONE
                 } catch (e: HttpException) {
