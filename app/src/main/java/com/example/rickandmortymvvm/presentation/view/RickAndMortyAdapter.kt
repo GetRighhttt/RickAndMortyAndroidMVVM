@@ -21,8 +21,6 @@ class RickAndMortyAdapter(
     private val context: Context
 ) : PagingDataAdapter<RickAndMorty, RickAndMortyAdapter.ViewHolder>(diffCallback) {
 
-    private val rmList = mutableListOf<RickAndMorty>()
-
     companion object {
 
         private val diffCallback = object
@@ -55,10 +53,12 @@ class RickAndMortyAdapter(
                     .load(rmUser.image)
                     .apply(
                         RequestOptions().transform(
-                            CenterCrop(), RoundedCorners(20)
+                            RoundedCorners(10)
                         )
-                            .placeholder(R.drawable.baseline_person_24)
                     )
+                    .placeholder(R.drawable.baseline_person_24)
+                    .fitCenter()
+                    .optionalCenterCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(rmImage)
 
@@ -100,6 +100,7 @@ class RickAndMortyAdapter(
             AnimationUtils.loadAnimation(holder.itemView.context, R.anim.in_from_bottom)
         )
     }
-
-    override fun getItemCount(): Int = rmList.size
+    /**
+     * MUST REMOVE OVERRIDE getItemCount() METHOD FOR PAGING3 TO WORK!!
+     */
 }

@@ -27,6 +27,15 @@
             app:layout_constraintTop_toBottomOf="@id/rm_search_view"
             tools:listitem="@layout/rm_list_item" />
 
+        <TextView
+            android:id="@+id/rm_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <ProgressBar
             android:id="@+id/pb_rm"
             android:layout_width="wrap_content"

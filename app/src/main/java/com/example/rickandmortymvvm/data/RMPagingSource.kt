@@ -17,11 +17,10 @@ class RMPagingSource(
     }
 
     override suspend fun load(params: LoadParams<Int>):
-            androidx.paging.PagingSource.LoadResult<Int, RickAndMorty> {
-
-        val currentPage = params.key ?: Constants.STARTING_PAGE_INDEX
+            LoadResult<Int, RickAndMorty> {
 
         return try {
+            val currentPage = params.key ?: Constants.STARTING_PAGE_INDEX
             val response = apiService.searchAllCharacters(query, currentPage)
             val responseData = mutableListOf<RickAndMorty>()
             val results = response.body()?.results ?: emptyList()
@@ -30,7 +29,7 @@ class RMPagingSource(
             LoadResult.Page(
                 data = responseData,
                 prevKey = if (currentPage == 1) null else -1,
-                nextKey = if(results.isEmpty()) null else currentPage.plus(1)
+                nextKey = if (results.isEmpty()) null else currentPage.plus(1)
             )
         } catch (e: IOException) { // no internet connection, etc.
             LoadResult.Error(e)

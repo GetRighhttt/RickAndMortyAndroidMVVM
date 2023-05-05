@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.databinding.ActivityRickAndMortyBinding
@@ -41,10 +42,10 @@ class RickAndMortyActivity : AppCompatActivity() {
     private fun collectRickAndMortyResults() = lifecycleScope.launch {
         binding.apply {
             pbRm.visibility = View.VISIBLE
-            viewModel.rickAndMortyResults.observe(this@RickAndMortyActivity) { pagingData ->
+            viewModel.rickAndMortyResults.observe(this@RickAndMortyActivity) {
                 try {
                     rmAdapter.notifyDataSetChanged()
-                    rmAdapter.submitData(lifecycle, pagingData)
+                    rmAdapter.submitData(lifecycle, it)
                     createSnackBar("Data successfully fetched!")
                     pbRm.visibility = View.GONE
                 } catch (e: HttpException) {
