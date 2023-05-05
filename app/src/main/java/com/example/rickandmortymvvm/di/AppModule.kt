@@ -18,7 +18,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideApiService() = RetrofitInstance.rickAndMortyService
+    fun provideApiService(): RickAndMortyApiService = RetrofitInstance.rickAndMortyService
 
     @Singleton
     @Provides

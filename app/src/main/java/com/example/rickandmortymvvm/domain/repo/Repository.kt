@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class Repository @Inject constructor(
     private val rickAndMortyApiService: RickAndMortyApiService
 ) {
-    suspend fun searchAllCharacters(query: String) =
+    fun searchAllCharacters(query: String) =
         Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -22,5 +22,5 @@ class Repository @Inject constructor(
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query) }
-        ).flow
+        ).liveData
 }
