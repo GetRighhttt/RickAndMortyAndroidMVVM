@@ -27,3 +27,5 @@ RIckAndMortyMvvm app just to practice paging and caching data with a recycler vi
 - Snackbar
 - Splash Screen
 <hr>
+
+https://user-images.githubusercontent.com/105057858/236585359-95369255-caf4-4fb8-ac8b-b96577b11bcb.mp4
