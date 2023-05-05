@@ -33,7 +33,7 @@ object RetrofitInstance {
     /*
     Lazily initialize retrofit instance when it needs to be called.
      */
-    val rickAndMortyService : RickAndMortyApiService by lazy {
+    val rickAndMortyService: RickAndMortyApiService by lazy {
         retrofit.create(RickAndMortyApiService::class.java)
     }
 }

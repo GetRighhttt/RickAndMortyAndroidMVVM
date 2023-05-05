@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rickandmortymvvm.core.events.Resource
 import com.example.rickandmortymvvm.databinding.RmLoadStateFooterBinding
 
 /*

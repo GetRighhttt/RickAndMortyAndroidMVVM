@@ -2,17 +2,13 @@ package com.example.rickandmortymvvm.presentation.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.databinding.ActivityDetailsBinding
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
@@ -22,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class DetailsActivity : AppCompatActivity() {
 
-    private var _binding : ActivityDetailsBinding? = null
+    private var _binding: ActivityDetailsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {

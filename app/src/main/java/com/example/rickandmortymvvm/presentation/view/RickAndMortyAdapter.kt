@@ -1,6 +1,5 @@
 package com.example.rickandmortymvvm.presentation.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,10 +8,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.databinding.RmListItemBinding
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
@@ -91,7 +87,7 @@ class RickAndMortyAdapter(
             holder.bind(currentItem)
         }
         holder.rmListItem.startAnimation(
-            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.in_from_bottom)
+            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.favorite_anim)
         )
     }
     /**
