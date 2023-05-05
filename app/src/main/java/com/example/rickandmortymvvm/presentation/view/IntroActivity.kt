@@ -1,13 +1,10 @@
 package com.example.rickandmortymvvm.presentation.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.rickandmortymvvm.R
+import androidx.appcompat.app.AppCompatActivity
 import com.example.rickandmortymvvm.databinding.ActivityIntroBinding
 
 class IntroActivity : AppCompatActivity() {
