@@ -57,6 +57,36 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_species"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="15sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_gravity="start"
+                android:layout_margin="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="15sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_Image"
             android:layout_width="match_parent"
@@ -64,20 +94,10 @@
             android:layout_margin="15dp"
             android:contentDescription="@string/image" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_species"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="10dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textSize="20sp" />
-
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp" />
+            android:layout_height="3dp"
+            android:backgroundTint="@color/colorAccent"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -94,9 +114,10 @@
                 android:padding="5dp">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_gender"
+                    android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_gravity="start"
                     android:layout_margin="5dp"
                     android:ellipsize="end"
@@ -107,6 +128,7 @@
                     android:id="@+id/tv_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_gravity="start"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
@@ -115,19 +137,10 @@
                     android:textSize="18sp" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_margin="5dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textSize="18sp" />
-
-                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_created"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_gravity="start"
                     android:layout_margin="5dp"
                     android:ellipsize="end"

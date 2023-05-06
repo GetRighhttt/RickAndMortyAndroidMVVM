@@ -12,10 +12,6 @@ class RMPagingSource(
     private val apiService: RickAndMortyApiService,
     private val query: String
 ) : PagingSource<Int, RickAndMorty>() {
-    override fun getRefreshKey(state: PagingState<Int, RickAndMorty>): Int? {
-        return null
-    }
-
     override suspend fun load(params: LoadParams<Int>):
             LoadResult<Int, RickAndMorty> {
 
@@ -35,6 +31,13 @@ class RMPagingSource(
             LoadResult.Error(e)
         } catch (e: HttpException) { // http status code exception
             LoadResult.Error(e)
+        }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, RickAndMorty>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
     }
 }

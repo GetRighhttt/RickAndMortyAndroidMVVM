@@ -15,6 +15,7 @@ import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -49,11 +50,11 @@ class DetailsActivity : AppCompatActivity() {
                         .into(ivImage)
 
                     tvName.text = it.name
-                    tvGender.text = it.gender
+                    tvGender.text = "| ${ it.gender }"
                     tvSpecies.text = it.species
                     tvLocation.text = it.location.name
                     tvStatus.text = it.status
-                    tvCreated.text = it.created
+                    tvCreated.text = it.created.dropLast(14)
                     pbLoading.visibility = View.GONE
 
                 }
