@@ -109,6 +109,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                 if (query != null) {
                     binding.rvRmList.smoothScrollToPosition(0)
                     viewModel.searchCharacters(query)
+//                    viewModel.searchGenders(query)
                     clearFocus()
                 }
                 return true

@@ -1,6 +1,7 @@
 package com.example.rickandmortymvvm.presentation.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
@@ -19,6 +20,7 @@ class RickAndMortyViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val currentQuery = saved.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
+    private val currentGender = MutableLiveData<String>(DEFAULT_QUERY)
 
     companion object {
         private const val DEFAULT_QUERY = ""
@@ -29,11 +31,23 @@ class RickAndMortyViewModel @Inject constructor(
         repository.searchAllCharacters(queryString, "").cachedIn(viewModelScope)
     }
 
+    val genderResults = currentGender.switchMap { gender ->
+        repository.searchAllCharacters("", gender).cachedIn(viewModelScope)
+    }
+
     fun searchCharacters(query: String) = viewModelScope.launch {
         try {
             currentQuery.value = query
         } catch (e: HttpException) {
-            Log.d("VIEW_MODEL", "${e.printStackTrace()}")
+            Log.d("VIEW_MODEL", "${e.printStackTrace()} - Could not find characters!")
+        }
+    }
+
+    fun searchGenders(query: String) = viewModelScope.launch {
+        try {
+            currentGender.value = query
+        } catch (e: HttpException) {
+            Log.d("VIEW_MODEL", "${e.printStackTrace()} - Could not find hte gender")
         }
     }
 }
