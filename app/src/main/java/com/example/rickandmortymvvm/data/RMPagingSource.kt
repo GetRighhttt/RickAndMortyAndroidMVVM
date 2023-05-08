@@ -10,14 +10,15 @@ import java.io.IOException
 
 class RMPagingSource(
     private val apiService: RickAndMortyApiService,
-    private val query: String
+    private val query: String,
+    private val gender: String
 ) : PagingSource<Int, RickAndMorty>() {
     override suspend fun load(params: LoadParams<Int>):
             LoadResult<Int, RickAndMorty> {
 
         return try {
             val currentPage = params.key ?: Constants.STARTING_PAGE_INDEX
-            val response = apiService.searchAllCharacters(query, currentPage)
+            val response = apiService.searchAllCharacters(query, currentPage, gender)
             val responseData = mutableListOf<RickAndMorty>()
             val results = response.body()?.results ?: emptyList()
             responseData.addAll(results)

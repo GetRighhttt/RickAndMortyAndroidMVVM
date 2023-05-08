@@ -26,7 +26,7 @@ class RickAndMortyViewModel @Inject constructor(
     }
 
     val rickAndMortyResults = currentQuery.switchMap { queryString ->
-        repository.searchAllCharacters(queryString).cachedIn(viewModelScope)
+        repository.searchAllCharacters(queryString, "").cachedIn(viewModelScope)
     }
 
     fun searchCharacters(query: String) = viewModelScope.launch {

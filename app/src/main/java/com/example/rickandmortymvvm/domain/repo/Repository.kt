@@ -13,13 +13,13 @@ import javax.inject.Singleton
 class Repository @Inject constructor(
     private val rickAndMortyApiService: RickAndMortyApiService
 ) {
-    fun searchAllCharacters(query: String) =
+    fun searchAllCharacters(query: String, gender: String) =
         Pager(
             config = PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
                 maxSize = 100,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query) }
+            pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
         ).liveData
 }
