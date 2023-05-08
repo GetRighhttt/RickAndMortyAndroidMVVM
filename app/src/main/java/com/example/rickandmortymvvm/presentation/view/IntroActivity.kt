@@ -15,6 +15,10 @@ class IntroActivity : AppCompatActivity() {
         _binding = ActivityIntroBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        startAnimation()
+    }
+
+    private fun startAnimation() {
         binding.ivRm.animate().apply {
             duration = 200L
             translationXBy(-360f)
@@ -34,10 +38,6 @@ class IntroActivity : AppCompatActivity() {
                 finish()
             }, 1200
         )
-    }
-
-    private fun startAnimation() {
-
     }
 
     override fun onDestroy() {
