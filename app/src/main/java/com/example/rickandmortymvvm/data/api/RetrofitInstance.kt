@@ -30,9 +30,6 @@ object RetrofitInstance {
         .client(provideHttpInterceptor())
         .build()
 
-    /*
-    Lazily initialize retrofit instance when it needs to be called.
-     */
     val rickAndMortyService: RickAndMortyApiService by lazy {
         retrofit.create(RickAndMortyApiService::class.java)
     }

@@ -47,7 +47,7 @@ class RickAndMortyViewModel @Inject constructor(
         try {
             currentGender.value = query
         } catch (e: HttpException) {
-            Log.d("VIEW_MODEL", "${e.printStackTrace()} - Could not find hte gender")
+            Log.d("VIEW_MODEL", "${e.printStackTrace()} - Could not find the character's gender")
         }
     }
 }
