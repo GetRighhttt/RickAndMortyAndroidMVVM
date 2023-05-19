@@ -42,12 +42,4 @@ class RickAndMortyViewModel @Inject constructor(
             Log.d("VIEW_MODEL", "${e.printStackTrace()} - Could not find characters!")
         }
     }
-
-    fun searchGenders(query: String) = viewModelScope.launch {
-        try {
-            currentGender.value = query
-        } catch (e: HttpException) {
-            Log.d("VIEW_MODEL", "${e.printStackTrace()} - Could not find the character's gender")
-        }
-    }
 }
