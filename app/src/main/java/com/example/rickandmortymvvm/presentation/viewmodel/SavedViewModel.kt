@@ -13,14 +13,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsViewModel @Inject constructor (
+class SavedViewModel @Inject constructor(
     private val repository: Repository
-    ) : ViewModel() {
+) : ViewModel() {
 
     private val _currentState = MutableLiveData<String>()
     val currentState: LiveData<String> get() = _currentState
 
-    fun addCharacter(character: RickAndMorty) = viewModelScope.launch {
-        repository.executeAddCharacter(character)
+    fun deleteCharacter(character: RickAndMorty) = viewModelScope.launch {
+        repository.executeDeleteCharacter(character)
     }
+
+    fun getAllSavedCharacters() = liveData {
+        repository.executeGetSavedCharacters().collectLatest { emit(it) }
+    }
+
 }

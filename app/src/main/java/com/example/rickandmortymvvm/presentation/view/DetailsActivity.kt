@@ -79,11 +79,10 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun saveCharacterToDatabase() {
         // get reference to character info from main activity
-        val character = getCharacterDetails()
         val characterName = getCharacterDetails()?.name
 
         lifecycleScope.launch {
-            viewModel.addCharacter(character!!)
+            viewModel.addCharacter(getCharacterDetails()!!)
         }
 
         MaterialAlertDialogBuilder(this)
