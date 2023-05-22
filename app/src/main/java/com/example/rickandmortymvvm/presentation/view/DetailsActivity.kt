@@ -8,7 +8,6 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -69,7 +68,6 @@ class DetailsActivity : AppCompatActivity() {
                     tvName.text = it.name
                     tvGender.text = "| ${it.gender}"
                     tvSpecies.text = it.species
-                    tvLocation.text = it.location.name
                     tvStatus.text = it.status
                     tvCreated.text = it.created.dropLast(14)
                     pbLoading.visibility = View.GONE
@@ -81,11 +79,11 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun saveCharacterToDatabase() {
         // get reference to character info from main activity
-        val characterId = getCharacterDetails()?.id
+        val character = getCharacterDetails()
         val characterName = getCharacterDetails()?.name
 
         lifecycleScope.launch {
-            viewModel.addCharacter(characterId ?: 0)
+            viewModel.addCharacter(character!!)
         }
 
         MaterialAlertDialogBuilder(this)

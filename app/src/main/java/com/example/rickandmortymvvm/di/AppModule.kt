@@ -1,8 +1,12 @@
 package com.example.rickandmortymvvm.di
 
+import android.app.Application
+import androidx.room.Room
 import com.example.rickandmortymvvm.core.util.DispatcherProvider
 import com.example.rickandmortymvvm.data.api.RetrofitInstance
 import com.example.rickandmortymvvm.data.api.RickAndMortyApiService
+import com.example.rickandmortymvvm.data.db.CharacterDAO
+import com.example.rickandmortymvvm.data.db.CharacterDatabase
 import com.example.rickandmortymvvm.domain.repo.Repository
 import dagger.Module
 import dagger.Provides
@@ -23,8 +27,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRepository(
-        rickAndMortyApiService: RickAndMortyApiService
-    ): Repository = Repository(rickAndMortyApiService)
+        rickAndMortyApiService: RickAndMortyApiService,
+        characterDAO: CharacterDAO
+    ): Repository = Repository(rickAndMortyApiService, characterDAO)
 
     @Singleton
     @Provides
@@ -38,4 +43,16 @@ object AppModule {
         override val unconfinedCD: CoroutineDispatcher
             get() = Dispatchers.Unconfined
     }
+
+    @Singleton
+    @Provides
+    fun provideCharacterDatabase(app: Application): CharacterDatabase = Room.databaseBuilder(
+        app, CharacterDatabase::class.java,
+        "rickAndMorty_db"
+    ).fallbackToDestructiveMigration()
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideDAO(database: CharacterDatabase): CharacterDAO = database.getCharacterDAO()
 }

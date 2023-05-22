@@ -1,9 +1,8 @@
-package com.example.rickandmortymvvm.data
+package com.example.rickandmortymvvm.data.api
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.rickandmortymvvm.core.util.Constants
-import com.example.rickandmortymvvm.data.api.RickAndMortyApiService
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import retrofit2.HttpException
 import java.io.IOException
