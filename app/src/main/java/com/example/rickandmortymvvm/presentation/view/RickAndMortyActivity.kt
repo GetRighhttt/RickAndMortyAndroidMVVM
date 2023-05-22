@@ -44,7 +44,7 @@ class RickAndMortyActivity : AppCompatActivity() {
         setupSearchView()
         collectRickAndMortyResults()
         addLoadStateListener()
-        backPressed()
+        onSwipeBackPressed()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -61,17 +61,19 @@ class RickAndMortyActivity : AppCompatActivity() {
                                 this@RickAndMortyActivity,
                                 DetailsActivity::class.java
                             )
-                        val bundle = Bundle().apply {
+                        Bundle().apply {
                             detailIntent.putExtra(EXTRA_MAIN, it)
                         }
                         startActivity(detailIntent)
                         finish()
                     }
 
-                    createSnackBar("Data successfully fetched!")
                     pbRm.visibility = View.GONE
                 } catch (e: HttpException) {
-                    createSnackBar(e.printStackTrace().toString())
+                    createMaterialDialog(
+                        this@RickAndMortyActivity,
+                        "Error retrieving data! ${e.printStackTrace()}"
+                    )
                     pbRm.visibility = View.GONE
                 }
             }
@@ -120,7 +122,7 @@ class RickAndMortyActivity : AppCompatActivity() {
         })
     }
 
-    private fun backPressed() = onBackPressedDispatcher.addCallback(
+    private fun onSwipeBackPressed() = onBackPressedDispatcher.addCallback(
         this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val backIntent = Intent(this@RickAndMortyActivity, RickAndMortyActivity::class.java)
@@ -130,21 +132,14 @@ class RickAndMortyActivity : AppCompatActivity() {
         }
     )
 
-    private fun materialDialog(
+    private fun createMaterialDialog(
         context: Context,
-        title: String,
         message: String
-    ) = object : MaterialAlertDialogBuilder(this) {
-        val dialog = MaterialAlertDialogBuilder(context)
-            .setTitle(title)
-            .setMessage(message)
-            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
-            .show()
-    }
-
-    private fun createSnackBar(message: String) = Snackbar.make(
-        binding.root, message, Snackbar.LENGTH_SHORT
-    ).show()
+    ) = MaterialAlertDialogBuilder(context)
+        .setTitle("Error!")
+        .setMessage(message)
+        .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+        .show()
 
     override fun onDestroy() {
         super.onDestroy()
