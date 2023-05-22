@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.databinding.ActivityRickAndMortyBinding
+import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.presentation.viewmodel.RickAndMortyViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -89,11 +90,9 @@ class RickAndMortyActivity : AppCompatActivity() {
                     }
 
                     R.id.nav_home -> {
-                        viewModel.searchCharacters("main")
-                        val backIntent =
-                            Intent(this@RickAndMortyActivity, RickAndMortyActivity::class.java)
-                        startActivity(backIntent)
-                        finish()
+                        val rickAndMortyList = listOf<String>("abcdefgirls", "mnopfesdf")
+                        rvRmList.smoothScrollToPosition(0)
+                        viewModel.searchCharacters(rickAndMortyList.subList(0,1).random().first().toString())
                         drawerLayout.close()
                     }
                 }
