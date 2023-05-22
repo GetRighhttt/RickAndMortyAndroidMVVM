@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import kotlin.random.Random
 
 
 @AndroidEntryPoint
@@ -44,67 +45,67 @@ class RickAndMortyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityRickAndMortyBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setNavigationIconToggle()
+        binding.apply {
+            toggle = ActionBarDrawerToggle(
+                this@RickAndMortyActivity,
+                binding.drawerLayout,
+                R.string.open,
+                R.string.close
+            )
+            drawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+
+            setSupportActionBar(topUserAppBar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+            navView.setNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.nav_account -> {
+                        drawerLayout.close()
+                    }
+
+                    R.id.nav_share -> {
+                        drawerLayout.close()
+                    }
+
+                    R.id.nav_setting -> {
+                        drawerLayout.close()
+                    }
+
+                    R.id.nav_list -> {
+                        drawerLayout.close()
+                    }
+
+                    R.id.nav_male -> {
+                        rvRmList.smoothScrollToPosition(0)
+                        collectMaleData()
+                        drawerLayout.close()
+                    }
+
+                    R.id.nav_female -> {
+                        rvRmList.smoothScrollToPosition(0)
+                        collectFemaleData()
+                        drawerLayout.close()
+                    }
+
+                    R.id.nav_home -> {
+                        viewModel.searchCharacters("main")
+                        val backIntent =
+                            Intent(this@RickAndMortyActivity, RickAndMortyActivity::class.java)
+                        startActivity(backIntent)
+                        finish()
+                        drawerLayout.close()
+                    }
+                }
+                true
+            }
+        }
+
         initRecyclerViewAndLoadStateAdapter()
         setupSearchView()
         collectRickAndMortyResults()
         addLoadStateListener()
         onSwipeBackPressed()
-    }
-
-    private fun setNavigationIconToggle() = binding.apply {
-        setSupportActionBar(binding.topUserAppBar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        topUserAppBar.setNavigationOnClickListener {
-            toggleNavigationDrawer()
-        }
-    }
-
-    private fun toggleNavigationDrawer() = binding.apply {
-        toggle = ActionBarDrawerToggle(
-            this@RickAndMortyActivity,
-            drawerLayout,
-            R.string.open,
-            R.string.close
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        navView.setNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    viewModel.searchCharacters("Rick")
-                }
-
-                R.id.nav_account -> {
-                }
-
-                R.id.nav_share -> {
-                }
-
-                R.id.nav_setting -> {
-                }
-
-                R.id.nav_list -> {
-                }
-
-                R.id.nav_male -> {
-                    viewModel.searchCharacters("male")
-                }
-
-                R.id.nav_female -> {
-                    viewModel.searchCharacters("female")
-                }
-
-                R.id.nav_home -> {
-                    val backIntent =
-                        Intent(this@RickAndMortyActivity, RickAndMortyActivity::class.java)
-                    startActivity(backIntent)
-                    finish()
-                }
-            }
-            true
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -118,6 +119,72 @@ class RickAndMortyActivity : AppCompatActivity() {
     private fun collectRickAndMortyResults() = lifecycleScope.launch {
         binding.apply {
             viewModel.rickAndMortyResults.observe(this@RickAndMortyActivity) {
+                try {
+                    rmAdapter.notifyDataSetChanged()
+                    rmAdapter.submitData(lifecycle, it)
+
+                    rmAdapter.setOnItemClickListener {
+                        val detailIntent =
+                            Intent(
+                                this@RickAndMortyActivity,
+                                DetailsActivity::class.java
+                            )
+                        Bundle().apply {
+                            detailIntent.putExtra(EXTRA_MAIN, it)
+                        }
+                        startActivity(detailIntent)
+                        finish()
+                    }
+
+                    pbRm.visibility = View.GONE
+                } catch (e: HttpException) {
+                    createMaterialDialog(
+                        this@RickAndMortyActivity,
+                        "Error retrieving data! ${e.printStackTrace()}"
+                    )
+                    pbRm.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun collectMaleData() = lifecycleScope.launch {
+        binding.apply {
+            viewModel.maleGender.observe(this@RickAndMortyActivity) {
+                try {
+                    rmAdapter.notifyDataSetChanged()
+                    rmAdapter.submitData(lifecycle, it)
+
+                    rmAdapter.setOnItemClickListener {
+                        val detailIntent =
+                            Intent(
+                                this@RickAndMortyActivity,
+                                DetailsActivity::class.java
+                            )
+                        Bundle().apply {
+                            detailIntent.putExtra(EXTRA_MAIN, it)
+                        }
+                        startActivity(detailIntent)
+                        finish()
+                    }
+
+                    pbRm.visibility = View.GONE
+                } catch (e: HttpException) {
+                    createMaterialDialog(
+                        this@RickAndMortyActivity,
+                        "Error retrieving data! ${e.printStackTrace()}"
+                    )
+                    pbRm.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun collectFemaleData() = lifecycleScope.launch {
+        binding.apply {
+            viewModel.femaleGender.observe(this@RickAndMortyActivity) {
                 try {
                     rmAdapter.notifyDataSetChanged()
                     rmAdapter.submitData(lifecycle, it)

@@ -23,6 +23,24 @@ class Repository @Inject constructor(
             pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
         ).liveData
 
+    fun searchMaleCharacters(query: String, gender: String = "male") = Pager(
+        config = PagingConfig(
+            pageSize = Constants.PAGE_SIZE,
+            maxSize = 100,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
+    ).liveData
+
+    fun searchFemaleCharacters(query: String, gender: String = "female") = Pager(
+        config = PagingConfig(
+            pageSize = Constants.PAGE_SIZE,
+            maxSize = 100,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
+    ).liveData
+
     fun addCharacter() {
         // TODO: Pass in repository save method from Room Database
     }
