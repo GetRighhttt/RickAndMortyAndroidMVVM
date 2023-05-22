@@ -22,4 +22,12 @@ class Repository @Inject constructor(
             ),
             pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
         ).liveData
+
+    fun addCharacter() {
+        // TODO: Pass in repository save method from Room Database
+    }
+
+    fun deleteCharacter() {
+        // TODO: Pass in repository save method from Room Database
+    }
 }

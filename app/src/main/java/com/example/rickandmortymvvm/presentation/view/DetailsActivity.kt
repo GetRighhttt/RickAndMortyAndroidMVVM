@@ -6,22 +6,33 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.databinding.ActivityDetailsBinding
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
+import com.example.rickandmortymvvm.presentation.viewmodel.DetailsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
 
     private var _binding: ActivityDetailsBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: DetailsViewModel by viewModels()
+
+    companion object {
+        const val EXTRA_DETAIL = "EXTRA_DETAIL"
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +45,13 @@ class DetailsActivity : AppCompatActivity() {
         onMenuItemSelected()
     }
 
+    private fun getCharacterDetails() = intent.getParcelableExtra<RickAndMorty>(RickAndMortyActivity.EXTRA_MAIN)
+
     @SuppressLint("SetTextI18n")
     private fun displayUserInfo() {
-        val rmDetails = intent.getParcelableExtra<RickAndMorty>(RickAndMortyActivity.EXTRA_MAIN)
         binding.apply {
+            // get reference to character info from main activity
+            val rmDetails = getCharacterDetails()
             pbLoading.visibility = View.VISIBLE
             lifecycleScope.launch {
                 delay(1000)
@@ -65,8 +79,27 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun saveCharacterToDatabase() {
+        // get reference to character info from main activity
+        val characterId = getCharacterDetails()?.id
+        val characterName = getCharacterDetails()?.name
+
+        lifecycleScope.launch {
+            viewModel.addCharacter(characterId ?: 0)
+        }
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Character Saved!")
+            .setMessage("Character $characterName has been successfully saved to the database.")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
     private fun onMenuItemSelected() {
 
+        val characterName = getCharacterDetails()?.name
         binding.apply {
             topUserAppBar.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
@@ -74,7 +107,7 @@ class DetailsActivity : AppCompatActivity() {
                         createDialogResponses(
                             this@DetailsActivity,
                             "Save Character?",
-                            "Are you sure you'd like to save this character to your database?"
+                            "Are you sure you'd like to save $characterName to your database?"
                         )
                         true
                     }
@@ -112,16 +145,11 @@ class DetailsActivity : AppCompatActivity() {
                 createSnackBar("Dialog Dismissed.")
             }
             .setNegativeButton("No") { _, _ ->
-               createSnackBar("Character not saved.")
+                val characterName = getCharacterDetails()?.name
+                createSnackBar("$characterName not saved.")
             }
             .setPositiveButton("Yes") { _, _ ->
-                MaterialAlertDialogBuilder(this)
-                    .setTitle("Character Saved!")
-                    .setMessage("Character has been successfully saved to the database.")
-                    .setPositiveButton("OK") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .show()
+                saveCharacterToDatabase()
             }
             .show()
 
