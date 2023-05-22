@@ -28,7 +28,7 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         displayUserInfo()
-        backPressed()
+        setNavigation()
     }
 
     @SuppressLint("SetTextI18n")
@@ -50,7 +50,7 @@ class DetailsActivity : AppCompatActivity() {
                         .into(ivImage)
 
                     tvName.text = it.name
-                    tvGender.text = "| ${ it.gender }"
+                    tvGender.text = "| ${it.gender}"
                     tvSpecies.text = it.species
                     tvLocation.text = it.location.name
                     tvStatus.text = it.status
@@ -60,6 +60,10 @@ class DetailsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setNavigation() = binding.topUserAppBar.setNavigationOnClickListener {
+        backPressed()
     }
 
     private fun backPressed() = onBackPressedDispatcher.addCallback(

@@ -19,6 +19,8 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Details"
             app:titleCentered="true"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:menu="@menu/detail_menu"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
 
     </com.google.android.material.appbar.AppBarLayout>

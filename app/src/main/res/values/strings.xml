@@ -10,4 +10,6 @@
     <string name="url">URL</string>
     <string name="results_failed_to_load">Results failed to load...</string>
     <string name="retry">Retry</string>
+    <string name="delete">Delete</string>
+    <string name="add">Add</string>
 </resources>
