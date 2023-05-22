@@ -4,16 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.databinding.ActivityRickAndMortyBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.RickAndMortyViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -30,6 +34,7 @@ class RickAndMortyActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     private val viewModel: RickAndMortyViewModel by viewModels()
     private lateinit var rmAdapter: RickAndMortyAdapter
+    private lateinit var toggle: ActionBarDrawerToggle
 
     companion object {
         const val EXTRA_MAIN = "EXTRA_MAIN"
@@ -39,12 +44,74 @@ class RickAndMortyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityRickAndMortyBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        setNavigationIconToggle()
         initRecyclerViewAndLoadStateAdapter()
         setupSearchView()
         collectRickAndMortyResults()
         addLoadStateListener()
         onSwipeBackPressed()
+    }
+
+    private fun setNavigationIconToggle() = binding.apply {
+        setSupportActionBar(binding.topUserAppBar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        topUserAppBar.setNavigationOnClickListener {
+            toggleNavigationDrawer()
+        }
+    }
+
+    private fun toggleNavigationDrawer() = binding.apply {
+        toggle = ActionBarDrawerToggle(
+            this@RickAndMortyActivity,
+            drawerLayout,
+            R.string.open,
+            R.string.close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        navView.setNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    viewModel.searchCharacters("Rick")
+                }
+
+                R.id.nav_account -> {
+                }
+
+                R.id.nav_share -> {
+                }
+
+                R.id.nav_setting -> {
+                }
+
+                R.id.nav_list -> {
+                }
+
+                R.id.nav_male -> {
+                    viewModel.searchCharacters("male")
+                }
+
+                R.id.nav_female -> {
+                    viewModel.searchCharacters("female")
+                }
+
+                R.id.nav_home -> {
+                    val backIntent =
+                        Intent(this@RickAndMortyActivity, RickAndMortyActivity::class.java)
+                    startActivity(backIntent)
+                    finish()
+                }
+            }
+            true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     @SuppressLint("NotifyDataSetChanged")
