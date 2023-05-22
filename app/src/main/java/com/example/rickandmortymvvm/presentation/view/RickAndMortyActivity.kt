@@ -62,30 +62,44 @@ class RickAndMortyActivity : AppCompatActivity() {
             navView.setNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.nav_account -> {
+                        rvRmList.smoothScrollToPosition(0)
+                        rmSearchView.clearFocus()
                         drawerLayout.close()
                     }
 
                     R.id.nav_share -> {
+                        rvRmList.smoothScrollToPosition(0)
+                        rmSearchView.clearFocus()
                         drawerLayout.close()
                     }
 
                     R.id.nav_setting -> {
+                        rvRmList.smoothScrollToPosition(0)
+                        rmSearchView.clearFocus()
                         drawerLayout.close()
                     }
 
                     R.id.nav_list -> {
+                        rvRmList.smoothScrollToPosition(0)
+                        rmSearchView.clearFocus()
+                        val savedIntent = Intent(this@RickAndMortyActivity, SavedActivity::class.java)
+                        startActivity(savedIntent)
                         drawerLayout.close()
                     }
 
                     R.id.nav_male -> {
                         rvRmList.smoothScrollToPosition(0)
+                        rmSearchView.clearFocus()
                         collectMaleData()
+                        topUserAppBar.title = "Males"
                         drawerLayout.close()
                     }
 
                     R.id.nav_female -> {
                         rvRmList.smoothScrollToPosition(0)
+                        rmSearchView.clearFocus()
                         collectFemaleData()
+                        topUserAppBar.title = "Females"
                         drawerLayout.close()
                     }
 
@@ -93,6 +107,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                         val rickAndMortyList = listOf<String>("abcdefgirls", "mnopfesdf")
                         rvRmList.smoothScrollToPosition(0)
                         viewModel.searchCharacters(rickAndMortyList.subList(0,1).random().first().toString())
+                        topUserAppBar.title = "Home"
                         drawerLayout.close()
                     }
                 }

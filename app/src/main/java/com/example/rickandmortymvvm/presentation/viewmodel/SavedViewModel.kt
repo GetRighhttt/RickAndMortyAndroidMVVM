@@ -3,7 +3,6 @@ package com.example.rickandmortymvvm.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.domain.repo.Repository
@@ -17,15 +16,22 @@ class SavedViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val _currentState = MutableLiveData<String>()
-    val currentState: LiveData<String> get() = _currentState
+    private val _currentState = MutableLiveData<List<RickAndMorty>>()
+    val currentState: LiveData<List<RickAndMorty>> get() = _currentState
+
+    init {
+        getAllSavedCharacters()
+    }
+    fun addCharacter(character: RickAndMorty) = viewModelScope.launch {
+        repository.executeAddCharacter(character)
+    }
 
     fun deleteCharacter(character: RickAndMorty) = viewModelScope.launch {
         repository.executeDeleteCharacter(character)
     }
 
-    fun getAllSavedCharacters() = liveData {
-        repository.executeGetSavedCharacters().collectLatest { emit(it) }
+    private fun getAllSavedCharacters() = viewModelScope.launch {
+        repository.executeGetSavedCharacters().collectLatest { _currentState.value = it }
     }
 
 }

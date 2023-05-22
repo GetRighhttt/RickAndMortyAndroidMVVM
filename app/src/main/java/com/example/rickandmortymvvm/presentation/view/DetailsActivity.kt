@@ -38,19 +38,52 @@ class DetailsActivity : AppCompatActivity() {
         _binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        displayUserInfo()
+        displayUserInfoFromSaved()
+        displayUserInfoFromMain()
         setNavigationIcon()
         onSwipeBackPressed()
         onMenuItemSelected()
     }
 
     private fun getCharacterDetails() = intent.getParcelableExtra<RickAndMorty>(RickAndMortyActivity.EXTRA_MAIN)
+    private fun getSavedDetails() = intent.getParcelableExtra<RickAndMorty>(SavedActivity.SAVED_CHARACTERS)
 
     @SuppressLint("SetTextI18n")
-    private fun displayUserInfo() {
+    private fun displayUserInfoFromMain() {
         binding.apply {
             // get reference to character info from main activity
             val rmDetails = getCharacterDetails()
+            pbLoading.visibility = View.VISIBLE
+            lifecycleScope.launch {
+                delay(1000)
+
+                rmDetails?.let {
+
+                    // scale and transform image to our needs using Glide.
+                    Glide.with(ivImage.context)
+                        .load(rmDetails.image)
+                        .placeholder(R.drawable.baseline_person_24)
+                        .circleCrop()
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(ivImage)
+
+                    tvName.text = it.name
+                    tvGender.text = "| ${it.gender}"
+                    tvSpecies.text = it.species
+                    tvStatus.text = it.status
+                    tvCreated.text = it.created.dropLast(14)
+                    pbLoading.visibility = View.GONE
+
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun displayUserInfoFromSaved() {
+        binding.apply {
+            // get reference to character info from main activity
+            val rmDetails = getSavedDetails()
             pbLoading.visibility = View.VISIBLE
             lifecycleScope.launch {
                 delay(1000)
