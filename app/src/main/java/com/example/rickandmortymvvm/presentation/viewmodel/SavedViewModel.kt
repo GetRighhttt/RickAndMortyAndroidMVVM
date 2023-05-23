@@ -8,6 +8,7 @@ import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.domain.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,19 +18,30 @@ class SavedViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
+    // Collecting flow data in LiveData variable
     private val _currentState = MutableLiveData<List<RickAndMorty>>()
     val currentState: LiveData<List<RickAndMorty>> get() = _currentState
+
+    // Loading state
+    private val _isLoading = MutableLiveData<Boolean>(false)
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
     init {
         getAllSavedCharacters()
     }
 
     fun addCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
+        _isLoading.postValue(true)
+        delay(1000)
         repository.executeAddCharacter(character)
+        _isLoading.postValue(false)
     }
 
     fun deleteCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
+        _isLoading.postValue(true)
+        delay(1000)
         repository.executeDeleteCharacter(character)
+        _isLoading.postValue(false)
     }
 
     /*
@@ -38,7 +50,11 @@ class SavedViewModel @Inject constructor(
     activity, but they are not observed there.
      */
     private fun getAllSavedCharacters() = viewModelScope.launch {
-        repository.executeGetSavedCharacters().collectLatest { _currentState.value = it }
+        _isLoading.postValue(true)
+        delay(1000)
+        repository.executeGetSavedCharacters().collectLatest {
+            _currentState.postValue(it)
+            _isLoading.postValue(false)
+        }
     }
-
 }
