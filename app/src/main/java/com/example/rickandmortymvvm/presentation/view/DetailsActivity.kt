@@ -119,8 +119,6 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun saveCharacterToDatabase() {
-        // get reference to character info from main activity
-        val characterName = getCharacterDetails()?.name
 
         lifecycleScope.launch {
             viewModel.addCharacter(getCharacterDetails()!!)
@@ -128,7 +126,7 @@ class DetailsActivity : AppCompatActivity() {
 
         MaterialAlertDialogBuilder(this)
             .setTitle("Character Saved!")
-            .setMessage("Character $characterName has been successfully saved to the database.")
+            .setMessage("Character has been successfully saved to the database.")
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
             }
@@ -137,14 +135,13 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun onMenuItemSelected() {
 
-        val characterName = getCharacterDetails()?.name
         binding.apply {
             topUserAppBar.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.add_character -> {
                         createDialogResponses(
                             this@DetailsActivity,
-                            "Are you sure you'd like to save $characterName to your database?"
+                            "Are you sure you'd like to save this character to your database?"
                         )
                         true
                     }
@@ -172,8 +169,7 @@ class DetailsActivity : AppCompatActivity() {
                 createSnackBar("Dialog Dismissed.")
             }
             .setNegativeButton("No") { _, _ ->
-                val characterName = getCharacterDetails()?.name
-                createSnackBar("$characterName not saved.")
+                createSnackBar("Character not saved.")
             }
             .setPositiveButton("Yes") { _, _ ->
                 saveCharacterToDatabase()
