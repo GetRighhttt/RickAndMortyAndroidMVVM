@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsViewModel @Inject constructor (
+class DetailsViewModel @Inject constructor(
     private val repository: Repository
-    ) : ViewModel() {
+) : ViewModel() {
 
     private val _currentState = MutableLiveData<String>()
     val currentState: LiveData<String> get() = _currentState

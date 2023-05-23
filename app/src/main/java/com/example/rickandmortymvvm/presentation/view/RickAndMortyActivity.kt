@@ -82,7 +82,8 @@ class RickAndMortyActivity : AppCompatActivity() {
                     R.id.nav_list -> {
                         rvRmList.smoothScrollToPosition(0)
                         rmSearchView.clearFocus()
-                        val savedIntent = Intent(this@RickAndMortyActivity, SavedActivity::class.java)
+                        val savedIntent =
+                            Intent(this@RickAndMortyActivity, SavedActivity::class.java)
                         startActivity(savedIntent)
                         drawerLayout.close()
                     }
@@ -106,7 +107,9 @@ class RickAndMortyActivity : AppCompatActivity() {
                     R.id.nav_home -> {
                         val rickAndMortyList = listOf<String>("abcdefgirls", "mnopfesdf")
                         rvRmList.smoothScrollToPosition(0)
-                        viewModel.searchCharacters(rickAndMortyList.subList(0,1).random().first().toString())
+                        viewModel.searchCharacters(
+                            rickAndMortyList.subList(0, 1).random().first().toString()
+                        )
                         topUserAppBar.title = "Home"
                         drawerLayout.close()
                     }

@@ -17,10 +17,10 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/detail_menu"
+            app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="Details"
             app:titleCentered="true"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:menu="@menu/detail_menu"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -77,9 +77,9 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_gender"
+                style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_gravity="start"
                 android:layout_margin="5dp"
                 android:ellipsize="end"
@@ -99,7 +99,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:backgroundTint="@color/colorAccent"/>
+            android:backgroundTint="@color/colorAccent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -117,9 +117,9 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_status"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_gravity="start"
                     android:layout_margin="5dp"
                     android:ellipsize="end"
@@ -128,9 +128,9 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_location"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_gravity="start"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
@@ -140,9 +140,9 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_created"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_gravity="start"
                     android:layout_margin="5dp"
                     android:ellipsize="end"

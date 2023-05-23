@@ -22,6 +22,7 @@ class SavedViewModel @Inject constructor(
     init {
         getAllSavedCharacters()
     }
+
     fun addCharacter(character: RickAndMorty) = viewModelScope.launch {
         repository.executeAddCharacter(character)
     }

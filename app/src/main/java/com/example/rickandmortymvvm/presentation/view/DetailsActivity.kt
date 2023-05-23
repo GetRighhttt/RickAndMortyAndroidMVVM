@@ -50,8 +50,11 @@ class DetailsActivity : AppCompatActivity() {
         onMenuItemSelected()
     }
 
-    private fun getCharacterDetails() = intent.getParcelableExtra<RickAndMorty>(RickAndMortyActivity.EXTRA_MAIN)
-    private fun getSavedDetails() = intent.getParcelableExtra<RickAndMorty>(SavedActivity.SAVED_CHARACTERS)
+    private fun getCharacterDetails() =
+        intent.getParcelableExtra<RickAndMorty>(RickAndMortyActivity.EXTRA_MAIN)
+
+    private fun getSavedDetails() =
+        intent.getParcelableExtra<RickAndMorty>(SavedActivity.SAVED_CHARACTERS)
 
     @SuppressLint("SetTextI18n")
     private fun displayUserInfoFromMain() {
