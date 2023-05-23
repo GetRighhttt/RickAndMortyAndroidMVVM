@@ -47,6 +47,7 @@ class DetailsActivity : AppCompatActivity() {
         displayUserInfoFromMain()
         setNavigationIcon()
         onMenuItemSelected()
+        observeLoadingState()
     }
 
     private fun getCharacterDetails() =
@@ -55,14 +56,16 @@ class DetailsActivity : AppCompatActivity() {
     private fun getSavedDetails() =
         intent.getParcelableExtra<RickAndMorty>(SavedActivity.SAVED_CHARACTERS)
 
+    private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
+        binding.pbLoading.visibility = if(isLoading) View.VISIBLE else View.GONE
+    }
+
     @SuppressLint("SetTextI18n")
     private fun displayUserInfoFromMain() {
         binding.apply {
             // get reference to character info from main activity
             val rmDetails = getCharacterDetails()
-            pbLoading.visibility = View.VISIBLE
             lifecycleScope.launch {
-                delay(1000)
 
                 rmDetails?.let {
 
@@ -91,9 +94,7 @@ class DetailsActivity : AppCompatActivity() {
         binding.apply {
             // get reference to character info from main activity
             val rmDetails = getSavedDetails()
-            pbLoading.visibility = View.VISIBLE
             lifecycleScope.launch {
-                delay(1000)
 
                 rmDetails?.let {
 
@@ -162,16 +163,6 @@ class DetailsActivity : AppCompatActivity() {
             startActivity(backIntent)
         }
     }
-
-
-//    private fun onSwipeBackPressed() = onBackPressedDispatcher.addCallback(
-//        this, object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                val backIntent = Intent(this@DetailsActivity, RickAndMortyActivity::class.java)
-//                startActivity(backIntent)
-//            }
-//        }
-//    )
 
     private fun createDialogResponses(context: Context, message: String) =
         MaterialAlertDialogBuilder(context)

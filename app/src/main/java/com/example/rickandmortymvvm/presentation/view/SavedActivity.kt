@@ -45,7 +45,7 @@ class SavedActivity : AppCompatActivity() {
         observeLoadingState()
     }
 
-    private fun observeLoadingState() = viewModel.isLoading.observe(this@SavedActivity) { isLoading ->
+    private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
         binding.pbSaved.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 

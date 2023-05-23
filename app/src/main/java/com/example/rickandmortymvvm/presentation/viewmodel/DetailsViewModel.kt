@@ -8,6 +8,7 @@ import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.domain.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,10 +17,17 @@ class DetailsViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val _currentState = MutableLiveData<RickAndMorty>()
-    val currentState: LiveData<RickAndMorty> get() = _currentState
+    // Loading state
+    private val _isLoading = MutableLiveData<Boolean>(false)
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
+    init {
+        _isLoading.postValue(false)
+    }
 
     fun addCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
+        _isLoading.postValue(true)
         repository.executeAddCharacter(character)
+        _isLoading.postValue(false)
     }
 }
