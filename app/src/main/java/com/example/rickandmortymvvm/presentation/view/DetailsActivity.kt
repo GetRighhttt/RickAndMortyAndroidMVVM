@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -30,6 +31,10 @@ class DetailsActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_DETAIL = "EXTRA_DETAIL"
+    }
+
+    init {
+        Log.d(EXTRA_DETAIL, "Detail class started")
     }
 
 
@@ -136,7 +141,6 @@ class DetailsActivity : AppCompatActivity() {
                     R.id.add_character -> {
                         createDialogResponses(
                             this@DetailsActivity,
-                            "Save Character?",
                             "Are you sure you'd like to save $characterName to your database?"
                         )
                         true
@@ -167,9 +171,9 @@ class DetailsActivity : AppCompatActivity() {
         }
     )
 
-    private fun createDialogResponses(context: Context, title: String, message: String) =
+    private fun createDialogResponses(context: Context, message: String) =
         MaterialAlertDialogBuilder(context)
-            .setTitle(title)
+            .setTitle("Save Character")
             .setMessage(message)
             .setNeutralButton("Dismiss") { _, _ ->
                 createSnackBar("Dialog Dismissed.")
