@@ -28,4 +28,6 @@
 - Material Toolbar
 - Snackbar
 - Splash Screen
-<hr>
+
+### Play at 0.5 Speed to grasp full functionality.
+https://github.com/GetRighhttt/RickAndMortyAndroidMVVM/assets/105057858/939ae1b9-07a6-43a7-8bcc-2da9239e070a
