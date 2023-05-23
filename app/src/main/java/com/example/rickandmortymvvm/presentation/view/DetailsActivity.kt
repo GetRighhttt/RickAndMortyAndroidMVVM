@@ -46,7 +46,6 @@ class DetailsActivity : AppCompatActivity() {
         displayUserInfoFromSaved()
         displayUserInfoFromMain()
         setNavigationIcon()
-        onSwipeBackPressed()
         onMenuItemSelected()
     }
 
@@ -165,14 +164,14 @@ class DetailsActivity : AppCompatActivity() {
     }
 
 
-    private fun onSwipeBackPressed() = onBackPressedDispatcher.addCallback(
-        this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val backIntent = Intent(this@DetailsActivity, RickAndMortyActivity::class.java)
-                startActivity(backIntent)
-            }
-        }
-    )
+//    private fun onSwipeBackPressed() = onBackPressedDispatcher.addCallback(
+//        this, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                val backIntent = Intent(this@DetailsActivity, RickAndMortyActivity::class.java)
+//                startActivity(backIntent)
+//            }
+//        }
+//    )
 
     private fun createDialogResponses(context: Context, message: String) =
         MaterialAlertDialogBuilder(context)
