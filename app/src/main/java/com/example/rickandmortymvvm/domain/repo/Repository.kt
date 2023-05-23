@@ -8,7 +8,9 @@ import com.example.rickandmortymvvm.data.api.RMPagingSource
 import com.example.rickandmortymvvm.data.api.RickAndMortyApiService
 import com.example.rickandmortymvvm.data.db.CharacterDAO
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,10 +47,12 @@ class Repository @Inject constructor(
         pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
     ).liveData
 
-    suspend fun executeAddCharacter(character: RickAndMorty) = characterDAO.insert(character)
+    suspend fun executeAddCharacter(character: RickAndMorty) = withContext(Dispatchers.IO) { characterDAO.insert(character) }
 
     fun executeGetSavedCharacters(): Flow<List<RickAndMorty>> = characterDAO.getAllCharacters()
 
-    suspend fun executeDeleteCharacter(character: RickAndMorty) =
+    suspend fun executeDeleteCharacter(character: RickAndMorty) = withContext(Dispatchers.IO) {
         characterDAO.deleteCharacter(character)
+    }
+
 }

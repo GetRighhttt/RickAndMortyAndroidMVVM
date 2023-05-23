@@ -13,20 +13,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.databinding.ActivityRickAndMortyBinding
-import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.presentation.viewmodel.RickAndMortyViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import kotlin.random.Random
 
 
 @AndroidEntryPoint

@@ -1,12 +1,12 @@
 package com.example.rickandmortymvvm.presentation.view
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.databinding.ActivitySavedBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.SavedViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SavedActivity : AppCompatActivity() {
@@ -129,7 +129,9 @@ class SavedActivity : AppCompatActivity() {
                     Snackbar.make(binding.root, "Character Deleted", Snackbar.LENGTH_LONG)
                         .apply {
                             setAction("Undo") {
-                                viewModel.addCharacter(character)
+                                lifecycleScope.launch {
+                                    viewModel.addCharacter(character)
+                                }
                             }
                         }
                         .show()
