@@ -65,6 +65,13 @@ class SavedActivity : AppCompatActivity() {
             scAdapter.notifyDataSetChanged()
             scAdapter.differ.submitList(it)
 
+            if (it.isEmpty()) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("Empty List!")
+                    .setMessage("The list is empty right now.")
+                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }.show()
+            }
+
             scAdapter.setOnItemClickListener {
                 val intent = Intent(this@SavedActivity, DetailsActivity::class.java)
                 Bundle().apply {
@@ -92,16 +99,23 @@ class SavedActivity : AppCompatActivity() {
             topUserAppBar.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.delete_character -> {
-                        MaterialAlertDialogBuilder(this@SavedActivity)
-                            .setTitle("Delete All Characters?")
-                            .setMessage("Are you sure you want to delete all characters from your database?")
-                            .setNeutralButton("Cancel") { dialog, _ -> dialog.cancel() }
-                            .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
-                            .setPositiveButton("Yes") { _, _ ->
-                                lifecycleScope.launch {
-                                    viewModel.deleteAllCharacters()
-                                }
-                            }.show()
+                        if (scAdapter.differ.currentList.isEmpty()) {
+                            // button won't work if the list is empty
+                            Snackbar.make(binding.root, "List is Empty", Snackbar.LENGTH_LONG)
+                                .show()
+                        } else {
+                            MaterialAlertDialogBuilder(this@SavedActivity)
+                                .setTitle("Delete All Characters?")
+                                .setMessage("Are you sure you want to delete all characters from your database?")
+                                .setNeutralButton("Cancel") { dialog, _ -> dialog.cancel() }
+                                .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+                                .setPositiveButton("Yes") { dialog, _ ->
+                                    lifecycleScope.launch {
+                                        viewModel.deleteAllCharacters()
+
+                                    }
+                                }.show()
+                        }
                         true
                     }
 
