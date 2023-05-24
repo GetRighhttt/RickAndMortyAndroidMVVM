@@ -3,6 +3,7 @@ package com.example.rickandmortymvvm.presentation.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.databinding.ActivitySavedBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.SavedViewModel
@@ -61,16 +64,22 @@ class SavedActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeLiveData() {
-        viewModel.currentState.observe(this) {
+        viewModel.currentState.observe(this) { character ->
             scAdapter.notifyDataSetChanged()
-            scAdapter.differ.submitList(it)
+            scAdapter.differ.submitList(character)
 
+            // onclick listener for when the user is clicked
             scAdapter.setOnItemClickListener {
-                val intent = Intent(this@SavedActivity, DetailsActivity::class.java)
-                Bundle().apply {
-                    intent.putExtra(SAVED_CHARACTERS, it)
-                    startActivity(intent)
-                }
+
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(it.name)
+                    .setMessage(
+                        "${it.name} is a ${it.gender.lowercase()} ${it.species.lowercase()}. " +
+                                "${it.name} was created ${it.created.dropLast(14)} " +
+                                "and is currently ${it.status.lowercase()}."
+                    )
+                    .setPositiveButton("OK") { _, _ -> }
+                    .show()
             }
         }
     }
