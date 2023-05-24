@@ -101,12 +101,14 @@ class RickAndMortyActivity : AppCompatActivity() {
                     }
 
                     R.id.nav_home -> {
-                        val rickAndMortyList = listOf<String>("abcdefgirls", "mnopfesdf")
+                        val rickAndMortyList = listOf("abcdefgirls", "mnopfesdf")
                         rvRmList.smoothScrollToPosition(0)
                         viewModel.searchCharacters(
                             rickAndMortyList.subList(0, 1).random().first().toString()
                         )
-                        topUserAppBar.title = "Home"
+                        // sets name of Home screen to user name entered in Login Activity
+                        topUserAppBar.title =
+                            " ${getSharedPrefsData(this@RickAndMortyActivity)}'s Home Page"
                         drawerLayout.close()
                     }
                 }
@@ -119,6 +121,12 @@ class RickAndMortyActivity : AppCompatActivity() {
         collectRickAndMortyResults()
         addLoadStateListener()
         onSwipeBackPressed()
+    }
+
+    // Using shared preferences from Login activity to populate Home page
+    private fun getSharedPrefsData(context: Context?): String? {
+        val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString(LoginActivity.LOGIN, null)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

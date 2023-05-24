@@ -33,7 +33,7 @@ class IntroActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed(
             {
                 startActivity(
-                    Intent(this@IntroActivity, RickAndMortyActivity::class.java)
+                    Intent(this@IntroActivity, LoginActivity::class.java)
                 )
                 finish()
             }, 1200

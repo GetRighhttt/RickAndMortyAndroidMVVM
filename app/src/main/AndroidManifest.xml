@@ -19,6 +19,9 @@
         android:theme="@style/Theme.RickAndMortyMVVM"
         tools:targetApi="33">
         <activity
+            android:name=".presentation.view.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.SavedActivity"
             android:exported="false" />
         <activity
@@ -35,7 +38,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.view.RickAndMortyActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>
