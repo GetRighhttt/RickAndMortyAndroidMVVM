@@ -22,7 +22,6 @@
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:subtitle="Saved"
             app:subtitleCentered="true"
-            app:title="Characters"
             app:titleCentered="true" />
 
     </com.google.android.material.appbar.AppBarLayout>

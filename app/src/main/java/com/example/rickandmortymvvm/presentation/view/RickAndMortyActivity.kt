@@ -54,66 +54,7 @@ class RickAndMortyActivity : AppCompatActivity() {
 
             setSupportActionBar(topUserAppBar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-            navView.setNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.nav_account -> {
-                        rvRmList.smoothScrollToPosition(0)
-                        rmSearchView.clearFocus()
-                        drawerLayout.close()
-                    }
-
-                    R.id.nav_share -> {
-                        rvRmList.smoothScrollToPosition(0)
-                        rmSearchView.clearFocus()
-                        drawerLayout.close()
-                    }
-
-                    R.id.nav_setting -> {
-                        rvRmList.smoothScrollToPosition(0)
-                        rmSearchView.clearFocus()
-                        drawerLayout.close()
-                    }
-
-                    R.id.nav_list -> {
-                        rvRmList.smoothScrollToPosition(0)
-                        rmSearchView.clearFocus()
-                        val savedIntent =
-                            Intent(this@RickAndMortyActivity, SavedActivity::class.java)
-                        startActivity(savedIntent)
-                        drawerLayout.close()
-                    }
-
-                    R.id.nav_male -> {
-                        rvRmList.smoothScrollToPosition(0)
-                        rmSearchView.clearFocus()
-                        collectMaleData()
-                        topUserAppBar.title = "Males"
-                        drawerLayout.close()
-                    }
-
-                    R.id.nav_female -> {
-                        rvRmList.smoothScrollToPosition(0)
-                        rmSearchView.clearFocus()
-                        collectFemaleData()
-                        topUserAppBar.title = "Females"
-                        drawerLayout.close()
-                    }
-
-                    R.id.nav_home -> {
-                        val rickAndMortyList = listOf("abcdefgirls", "mnopfesdf")
-                        rvRmList.smoothScrollToPosition(0)
-                        viewModel.searchCharacters(
-                            rickAndMortyList.subList(0, 1).random().first().toString()
-                        )
-                        // sets name of Home screen to user name entered in Login Activity
-                        topUserAppBar.title =
-                            " ${getSharedPrefsData(this@RickAndMortyActivity)}'s Home Page"
-                        drawerLayout.close()
-                    }
-                }
-                true
-            }
+            setNavigation()
         }
 
         initRecyclerViewAndLoadStateAdapter()
@@ -121,6 +62,68 @@ class RickAndMortyActivity : AppCompatActivity() {
         collectRickAndMortyResults()
         addLoadStateListener()
         onSwipeBackPressed()
+    }
+
+    private fun setNavigation() = binding.apply {
+        navView.setNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_account -> {
+                    rvRmList.smoothScrollToPosition(0)
+                    rmSearchView.clearFocus()
+                    drawerLayout.close()
+                }
+
+                R.id.nav_share -> {
+                    rvRmList.smoothScrollToPosition(0)
+                    rmSearchView.clearFocus()
+                    drawerLayout.close()
+                }
+
+                R.id.nav_setting -> {
+                    rvRmList.smoothScrollToPosition(0)
+                    rmSearchView.clearFocus()
+                    drawerLayout.close()
+                }
+
+                R.id.nav_list -> {
+                    rvRmList.smoothScrollToPosition(0)
+                    rmSearchView.clearFocus()
+                    val savedIntent =
+                        Intent(this@RickAndMortyActivity, SavedActivity::class.java)
+                    startActivity(savedIntent)
+                    drawerLayout.close()
+                }
+
+                R.id.nav_male -> {
+                    rvRmList.smoothScrollToPosition(0)
+                    rmSearchView.clearFocus()
+                    collectMaleData()
+                    topUserAppBar.title = "Males"
+                    drawerLayout.close()
+                }
+
+                R.id.nav_female -> {
+                    rvRmList.smoothScrollToPosition(0)
+                    rmSearchView.clearFocus()
+                    collectFemaleData()
+                    topUserAppBar.title = "Females"
+                    drawerLayout.close()
+                }
+
+                R.id.nav_home -> {
+                    val rickAndMortyList = listOf("abcdefgirls", "mnopfesdf")
+                    rvRmList.smoothScrollToPosition(0)
+                    viewModel.searchCharacters(
+                        rickAndMortyList.subList(0, 1).random().first().toString()
+                    )
+                    // sets name of Home screen to user name entered in Login Activity
+                    topUserAppBar.title =
+                        "${getSharedPrefsData(this@RickAndMortyActivity)}'s Home Page"
+                    drawerLayout.close()
+                }
+            }
+            true
+        }
     }
 
     // Using shared preferences from Login activity to populate Home page

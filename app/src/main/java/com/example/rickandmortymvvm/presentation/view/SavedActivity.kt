@@ -1,6 +1,7 @@
 package com.example.rickandmortymvvm.presentation.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -35,6 +36,8 @@ class SavedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivitySavedBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.topUserAppBar.title =
+            "${getSharedPrefsData(this@SavedActivity)}'s Saved Characters"
 
         observeLiveData()
         initRecyclerView()
@@ -43,6 +46,12 @@ class SavedActivity : AppCompatActivity() {
         onSwipeBackPressed()
         createItemCallBack()
         observeLoadingState()
+    }
+
+    // Using shared preferences from Login activity to populate Home page
+    private fun getSharedPrefsData(context: Context?): String? {
+        val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString(LoginActivity.LOGIN, null)
     }
 
     private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
