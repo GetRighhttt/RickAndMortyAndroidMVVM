@@ -35,7 +35,7 @@ Data Persistence Used: ROOM & SHARED PREFERENCES.
 ### Play at 0.5 Speed to grasp full functionality.
 https://github.com/GetRighhttt/RickAndMortyAndroidMVVM/assets/105057858/939ae1b9-07a6-43a7-8bcc-2da9239e070a
 
-### Added more CRUD & data persistence with Shared Preferences, also basic login page.
+### 05/24/23 Added more CRUD & data persistence with Shared Preferences, also basic login page.
 
 https://github.com/GetRighhttt/RickAndMortyAndroidMVVM/assets/105057858/a19c935f-0326-484b-abe4-7ec156bab42d
 
