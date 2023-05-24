@@ -19,7 +19,6 @@ import com.example.rickandmortymvvm.presentation.viewmodel.SavedViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -103,7 +102,7 @@ class SavedActivity : AppCompatActivity() {
                                 .setMessage("Are you sure you want to delete all characters from your database?")
                                 .setNeutralButton("Cancel") { dialog, _ -> dialog.cancel() }
                                 .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
-                                .setPositiveButton("Yes") { dialog, _ ->
+                                .setPositiveButton("Yes") { _, _ ->
                                     lifecycleScope.launch {
                                         viewModel.deleteAllCharacters()
                                         Snackbar.make(

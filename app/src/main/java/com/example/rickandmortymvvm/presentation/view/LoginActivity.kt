@@ -3,15 +3,11 @@ package com.example.rickandmortymvvm.presentation.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import com.example.rickandmortymvvm.databinding.ActivityLoginBinding
-import com.example.rickandmortymvvm.presentation.viewmodel.LoginViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

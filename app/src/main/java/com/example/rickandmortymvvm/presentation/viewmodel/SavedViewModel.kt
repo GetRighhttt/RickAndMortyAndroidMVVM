@@ -23,7 +23,7 @@ class SavedViewModel @Inject constructor(
     val currentState: LiveData<List<RickAndMorty>> get() = _currentState
 
     // Loading state
-    private val _isLoading = MutableLiveData<Boolean>(false)
+    private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     init {

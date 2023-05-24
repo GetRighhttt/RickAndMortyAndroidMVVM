@@ -11,7 +11,6 @@ import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import javax.inject.Inject
 import javax.inject.Singleton
 

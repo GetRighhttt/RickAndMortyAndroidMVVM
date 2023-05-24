@@ -20,8 +20,8 @@ class RickAndMortyViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val currentQuery = saved.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
-    private val maleGenderData = MutableLiveData<String>(DEFAULT_QUERY)
-    private val femaleGenderData = MutableLiveData<String>(DEFAULT_QUERY)
+    private val maleGenderData = MutableLiveData(DEFAULT_QUERY)
+    private val femaleGenderData = MutableLiveData(DEFAULT_QUERY)
 
     companion object {
         private const val DEFAULT_QUERY = ""
@@ -32,11 +32,11 @@ class RickAndMortyViewModel @Inject constructor(
         repository.searchAllCharacters(queryString, "").cachedIn(viewModelScope)
     }
 
-    val maleGender = maleGenderData.switchMap { _ ->
+    val maleGender = maleGenderData.switchMap {
         repository.searchMaleCharacters("", "male").cachedIn(viewModelScope)
     }
 
-    val femaleGender = femaleGenderData.switchMap { _ ->
+    val femaleGender = femaleGenderData.switchMap {
         repository.searchFemaleCharacters("", "female").cachedIn(viewModelScope)
     }
 
