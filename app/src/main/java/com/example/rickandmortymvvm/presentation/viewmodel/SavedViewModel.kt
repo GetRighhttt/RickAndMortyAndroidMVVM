@@ -44,12 +44,19 @@ class SavedViewModel @Inject constructor(
         _isLoading.postValue(false)
     }
 
+    fun deleteAllCharacters() = viewModelScope.launch(Dispatchers.IO) {
+        _isLoading.postValue(true)
+        delay(1000)
+        repository.executeDeleteAllCharacters()
+        _isLoading.postValue(false)
+    }
+
     /*
     Am not passing in a Dispatcher here for viewModelScope because we need this method to
     be observed on the main thread, not just CALLED. The other methods are just called in the
     activity, but they are not observed there.
      */
-    private fun getAllSavedCharacters() = viewModelScope.launch {
+    fun getAllSavedCharacters() = viewModelScope.launch {
         _isLoading.postValue(true)
         delay(1000)
         repository.executeGetSavedCharacters().collectLatest {

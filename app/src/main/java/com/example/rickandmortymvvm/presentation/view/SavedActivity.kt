@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.databinding.ActivitySavedBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.SavedViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -90,7 +91,17 @@ class SavedActivity : AppCompatActivity() {
         binding.apply {
             topUserAppBar.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.nav_share -> {
+                    R.id.delete_character -> {
+                        MaterialAlertDialogBuilder(this@SavedActivity)
+                            .setTitle("Delete All Characters?")
+                            .setMessage("Are you sure you want to delete all characters from your database?")
+                            .setNeutralButton("Cancel") { dialog, _ -> dialog.cancel() }
+                            .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+                            .setPositiveButton("Yes") { _, _ ->
+                                lifecycleScope.launch {
+                                    viewModel.deleteAllCharacters()
+                                }
+                            }.show()
                         true
                     }
 
@@ -117,10 +128,6 @@ class SavedActivity : AppCompatActivity() {
             }
         }
     )
-
-    private fun createSnackBar(message: String) = Snackbar.make(
-        binding.root, message, Snackbar.LENGTH_SHORT
-    ).show()
 
     private fun createItemCallBack() {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(

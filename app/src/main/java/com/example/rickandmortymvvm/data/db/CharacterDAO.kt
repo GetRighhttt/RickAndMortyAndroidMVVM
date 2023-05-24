@@ -17,6 +17,9 @@ interface CharacterDAO {
     @Query("SELECT * FROM characters")
     fun getAllCharacters(): Flow<List<RickAndMorty>>
 
+    @Query("DELETE FROM characters")
+    fun deleteAll()
+
     @Delete
     suspend fun deleteCharacter(character: RickAndMorty)
 }

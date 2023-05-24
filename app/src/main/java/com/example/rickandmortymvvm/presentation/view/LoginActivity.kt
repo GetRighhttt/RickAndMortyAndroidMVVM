@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
 
             Toast.makeText(
                 this@LoginActivity,
-                "$nameText saved to application",
+                "$nameText logged in to application",
                 Toast.LENGTH_LONG)
                 .show()
         }.apply()
