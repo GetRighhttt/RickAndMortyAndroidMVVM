@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rickandmortymvvm.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +14,6 @@ class LoginActivity : AppCompatActivity() {
 
     private var _binding: ActivityLoginBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: LoginViewModel by viewModels()
 
     companion object {
         const val LOGIN = "LOGIN"
