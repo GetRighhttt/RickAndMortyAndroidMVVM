@@ -27,6 +27,7 @@ class SavedViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     init {
+        // initialize the view model with list of characters saved from Detail Activity
         getAllSavedCharacters()
     }
 
