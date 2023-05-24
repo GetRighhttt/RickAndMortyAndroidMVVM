@@ -19,6 +19,7 @@ import com.example.rickandmortymvvm.presentation.viewmodel.SavedViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -65,13 +66,6 @@ class SavedActivity : AppCompatActivity() {
             scAdapter.notifyDataSetChanged()
             scAdapter.differ.submitList(it)
 
-            if (it.isEmpty()) {
-                MaterialAlertDialogBuilder(this)
-                    .setTitle("Empty List!")
-                    .setMessage("The list is empty right now.")
-                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }.show()
-            }
-
             scAdapter.setOnItemClickListener {
                 val intent = Intent(this@SavedActivity, DetailsActivity::class.java)
                 Bundle().apply {
@@ -112,7 +106,11 @@ class SavedActivity : AppCompatActivity() {
                                 .setPositiveButton("Yes") { dialog, _ ->
                                     lifecycleScope.launch {
                                         viewModel.deleteAllCharacters()
-
+                                        Snackbar.make(
+                                            binding.root,
+                                            "Characters deleted from Database Successfully",
+                                            Snackbar.LENGTH_LONG
+                                        ).show()
                                     }
                                 }.show()
                         }
