@@ -56,7 +56,7 @@ class SavedViewModel @Inject constructor(
     be observed on the main thread, not just CALLED. The other methods are just called in the
     activity, but they are not observed there.
      */
-    fun getAllSavedCharacters() = viewModelScope.launch {
+    private fun getAllSavedCharacters() = viewModelScope.launch {
         _isLoading.postValue(true)
         delay(1000)
         repository.executeGetSavedCharacters().collectLatest {
