@@ -3,6 +3,8 @@
 
 #### Here is a list of all the features used in this application:
 
+Data Persistence Used: ROOM & SHARED PREFERENCES.
+
 - Design Patterns
 - Paging3
 - LoadStateListener
@@ -18,6 +20,7 @@
 - Sealed Classes
 - Intents: PutExtra
 - ROOM
+- Shared Preferences
 - Navigation Drawer
 - Glide
 - Recycler View
