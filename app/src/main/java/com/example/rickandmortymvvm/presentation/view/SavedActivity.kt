@@ -113,7 +113,7 @@ class SavedActivity : AppCompatActivity() {
                                 .setNegativeButton("No") { dialog, _ ->
                                     Snackbar.make(
                                         binding.root,
-                                        "Character not deleted",
+                                        "Characters not deleted as requested by user.",
                                         Snackbar.LENGTH_LONG
                                     ).show()
                                 }
