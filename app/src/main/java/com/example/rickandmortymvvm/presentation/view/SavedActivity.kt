@@ -110,7 +110,13 @@ class SavedActivity : AppCompatActivity() {
                                 .setTitle("Delete All Characters?")
                                 .setMessage("Are you sure you want to delete all characters from your database?")
                                 .setNeutralButton("Cancel") { dialog, _ -> dialog.cancel() }
-                                .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+                                .setNegativeButton("No") { dialog, _ ->
+                                    Snackbar.make(
+                                        binding.root,
+                                        "Character not deleted",
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
+                                }
                                 .setPositiveButton("Yes") { _, _ ->
                                     lifecycleScope.launch {
                                         viewModel.deleteAllCharacters()
