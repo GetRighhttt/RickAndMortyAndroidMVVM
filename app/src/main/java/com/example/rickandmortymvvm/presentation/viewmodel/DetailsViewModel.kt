@@ -21,6 +21,7 @@ class DetailsViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     init {
+        // fault tolerance
         _isLoading.postValue(false)
     }
 
