@@ -1,8 +1,10 @@
 package com.example.rickandmortymvvm.presentation.view
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -70,18 +72,60 @@ class RickAndMortyActivity : AppCompatActivity() {
                 R.id.nav_account -> {
                     rvRmList.smoothScrollToPosition(0)
                     rmSearchView.clearFocus()
+
+                    // navigate to Rick and Morty website
+                    val uriString = "https://www.adultswim.com/videos/rick-and-morty/rick-and-morty"
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(uriString)
+                    }
+                    try {
+                        startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        e.printStackTrace()
+                    }
                     drawerLayout.close()
                 }
 
                 R.id.nav_share -> {
                     rvRmList.smoothScrollToPosition(0)
                     rmSearchView.clearFocus()
+
+                    // share an email about the application
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(
+                            Intent.EXTRA_EMAIL, arrayOf(
+                                "stefanbayne@gmail.com"
+                            )
+                        )
+                        putExtra(Intent.EXTRA_SUBJECT, "Sharing application")
+                        putExtra(
+                            Intent.EXTRA_TEXT,
+                            "Please checkout my Rick and Morty application that I have created!"
+                        )
+                    }
+                    if (intent.resolveActivity(packageManager) != null) {
+                        startActivity(intent)
+                    }
                     drawerLayout.close()
                 }
 
-                R.id.nav_setting -> {
+                R.id.nav_youtube -> {
                     rvRmList.smoothScrollToPosition(0)
                     rmSearchView.clearFocus()
+
+                    // go to youtube
+                    val youtubeString =
+                        "https://www.youtube.com/results?search_query=rick+and+morty"
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(youtubeString)
+                    }
+                    try {
+                        startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        e.printStackTrace()
+                    }
+
                     drawerLayout.close()
                 }
 

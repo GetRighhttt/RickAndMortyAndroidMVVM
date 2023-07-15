@@ -15,15 +15,15 @@
                 <item
                     android:id="@+id/nav_account"
                     android:icon="@drawable/baseline_person_24"
-                    android:title="@string/account" />
+                    android:title="@string/rick_morty_page" />
                 <item
                     android:id="@+id/nav_share"
                     android:icon="@drawable/baseline_share_24"
                     android:title="@string/share" />
                 <item
-                    android:id="@+id/nav_setting"
-                    android:icon="@drawable/baseline_settings_24"
-                    android:title="@string/settings" />
+                    android:id="@+id/nav_youtube"
+                    android:icon="@drawable/baseline_ondemand_video_24"
+                    android:title="@string/youtube" />
 
             </menu>
         </item>
