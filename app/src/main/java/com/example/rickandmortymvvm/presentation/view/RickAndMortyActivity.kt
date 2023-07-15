@@ -78,7 +78,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                     val intent = Intent(Intent.ACTION_VIEW).apply {
                         data = Uri.parse(uriString)
                     }
-                    try {
+                    try { // error handling
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
@@ -104,6 +104,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                             "Please checkout my Rick and Morty application that I have created!"
                         )
                     }
+                    // another approach to error handling with resolve activity
                     if (intent.resolveActivity(packageManager) != null) {
                         startActivity(intent)
                     }
@@ -120,7 +121,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                     val intent = Intent(Intent.ACTION_VIEW).apply {
                         data = Uri.parse(youtubeString)
                     }
-                    try {
+                    try { // error handling
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
@@ -170,7 +171,7 @@ class RickAndMortyActivity : AppCompatActivity() {
         }
     }
 
-    // Using shared preferences from Login activity to populate Home page
+    // Using shared preferences from Login activity to populate Home page action bar title
     private fun getSharedPrefsData(context: Context?): String? {
         val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
         return sharedPreferences.getString(LoginActivity.LOGIN, null)
