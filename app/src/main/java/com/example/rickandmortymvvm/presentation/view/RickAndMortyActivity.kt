@@ -56,7 +56,7 @@ class RickAndMortyActivity : AppCompatActivity() {
 
             setSupportActionBar(topUserAppBar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            setNavigation()
+            setNavigationDrawer()
         }
 
         initRecyclerViewAndLoadStateAdapter()
@@ -66,7 +66,7 @@ class RickAndMortyActivity : AppCompatActivity() {
         onSwipeBackPressed()
     }
 
-    private fun setNavigation() = binding.apply {
+    private fun setNavigationDrawer() = binding.apply {
         navView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_account -> {
