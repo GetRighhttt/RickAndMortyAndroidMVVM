@@ -20,7 +20,6 @@ import com.example.rickandmortymvvm.core.util.observeLoadingLiveData
 import com.example.rickandmortymvvm.databinding.ActivitySavedBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.SavedViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -101,8 +100,7 @@ class SavedActivity : AppCompatActivity() {
                     R.id.delete_character -> {
                         if (scAdapter.differ.currentList.isEmpty()) {
                             // button won't work if the list is empty
-                            Snackbar.make(binding.root, "List is Empty", Snackbar.LENGTH_LONG)
-                                .show()
+                            createSnackBar("List is Empty", binding.root)
                         } else {
                             MaterialAlertDialogBuilder(this@SavedActivity)
                                 .setTitle("Delete All Characters?")
