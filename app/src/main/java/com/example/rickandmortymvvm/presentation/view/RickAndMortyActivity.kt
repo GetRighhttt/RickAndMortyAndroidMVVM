@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.core.util.createNegativeDialog
+import com.example.rickandmortymvvm.core.util.createSnackBar
 import com.example.rickandmortymvvm.databinding.ActivityRickAndMortyBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.RickAndMortyViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,6 +73,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                 R.id.nav_account -> {
                     rvRmList.smoothScrollToPosition(0)
                     rmSearchView.clearFocus()
+                    createSnackBar("Loading Website...", binding.root)
 
                     // navigate to Rick and Morty website
                     val uriString = "https://www.adultswim.com/videos/rick-and-morty/rick-and-morty"
@@ -89,6 +91,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                 R.id.nav_share -> {
                     rvRmList.smoothScrollToPosition(0)
                     rmSearchView.clearFocus()
+                    createSnackBar("Loading Email...", binding.root)
 
                     // share an email about the application
                     val intent = Intent(Intent.ACTION_SEND).apply {
@@ -122,6 +125,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                         data = Uri.parse(youtubeString)
                     }
                     try { // error handling
+                        createSnackBar("Loading Youtube...", binding.root)
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
@@ -164,6 +168,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                     // sets name of Home screen to user name entered in Login Activity
                     topUserAppBar.title =
                         "${getSharedPrefsData(this@RickAndMortyActivity)}'s Home Page"
+                    createSnackBar("Going Home", binding.root)
                     drawerLayout.close()
                 }
             }

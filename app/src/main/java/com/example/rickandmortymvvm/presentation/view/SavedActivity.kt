@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
+import com.example.rickandmortymvvm.core.util.createSnackBarWithCoroutineAction
 import com.example.rickandmortymvvm.core.util.observeLoadingLiveData
 import com.example.rickandmortymvvm.databinding.ActivitySavedBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.SavedViewModel
@@ -170,17 +171,10 @@ class SavedActivity : AppCompatActivity() {
                 val position = viewHolder.adapterPosition
                 val character = scAdapter.differ.currentList[position]
                 viewModel.deleteCharacter(character)
-                this@SavedActivity.let {
-                    Snackbar.make(binding.root, "Character Deleted", Snackbar.LENGTH_LONG)
-                        .apply {
-                            setAction("Undo") {
-                                lifecycleScope.launch {
-                                    viewModel.addCharacter(character)
-                                }
-                            }
-                        }
-                        .show()
-                }
+                createSnackBarWithCoroutineAction("Character Deleted", binding.root, lifecycleScope.launch {
+                    viewModel.addCharacter(character)
+                }, "Undo")
+
             }
         }
 

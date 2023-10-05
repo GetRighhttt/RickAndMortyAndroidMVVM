@@ -56,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
                 savedIntent.putExtra(LOGIN, nameText)
             }
 
-            setToast("$nameText logged in to application", Toast.LENGTH_LONG)
+            setToast("$nameText logged in to application", Toast.LENGTH_SHORT)
         }.apply()
     }
 
