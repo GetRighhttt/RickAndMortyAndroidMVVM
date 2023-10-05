@@ -12,11 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.rickandmortymvvm.R
+import com.example.rickandmortymvvm.core.util.createPositiveDialog
+import com.example.rickandmortymvvm.core.util.createSnackBar
 import com.example.rickandmortymvvm.databinding.ActivityDetailsBinding
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.presentation.viewmodel.DetailsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -55,7 +56,7 @@ class DetailsActivity : AppCompatActivity() {
         intent.getParcelableExtra<RickAndMorty>(SavedActivity.SAVED_CHARACTERS)
 
     private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
-        binding.pbLoading.visibility = if(isLoading) View.VISIBLE else View.GONE
+        binding.pbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     @SuppressLint("SetTextI18n")
@@ -122,13 +123,11 @@ class DetailsActivity : AppCompatActivity() {
             viewModel.addCharacter(getCharacterDetails()!!)
         }
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Character Saved!")
-            .setMessage("Character has been successfully saved to the database.")
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+        createPositiveDialog(
+            "Character Saved!",
+            "Character has been successfully saved to the database.",
+            "OK"
+        )
     }
 
     private fun onMenuItemSelected() {
@@ -164,19 +163,16 @@ class DetailsActivity : AppCompatActivity() {
             .setTitle("Save Character")
             .setMessage(message)
             .setNeutralButton("Dismiss") { _, _ ->
-                createSnackBar("Dialog Dismissed.")
+                createSnackBar("Dialog Dismissed.", binding.root)
             }
             .setNegativeButton("No") { _, _ ->
-                createSnackBar("Character not saved.")
+                createSnackBar("Character not saved.", binding.root)
             }
             .setPositiveButton("Yes") { _, _ ->
                 saveCharacterToDatabase()
             }
             .show()
 
-    private fun createSnackBar(message: String) = Snackbar.make(
-        binding.root, message, Snackbar.LENGTH_SHORT
-    ).show()
 
     override fun onDestroy() {
         super.onDestroy()

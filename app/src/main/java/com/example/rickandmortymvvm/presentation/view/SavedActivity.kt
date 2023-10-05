@@ -3,9 +3,7 @@ package com.example.rickandmortymvvm.presentation.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.rickandmortymvvm.R
+import com.example.rickandmortymvvm.core.util.observeLoadingLiveData
 import com.example.rickandmortymvvm.databinding.ActivitySavedBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.SavedViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -59,7 +56,7 @@ class SavedActivity : AppCompatActivity() {
     }
 
     private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
-        binding.pbSaved.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.pbSaved.visibility = observeLoadingLiveData(isLoading)
     }
 
     @SuppressLint("NotifyDataSetChanged")

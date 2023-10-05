@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rickandmortymvvm.core.util.setToast
 import com.example.rickandmortymvvm.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +36,8 @@ class LoginActivity : AppCompatActivity() {
         val savedData = sharedPreferences.getString(LOGIN, null)
 
         binding.apply {
-            if(savedData!!.isEmpty()) loadName.visibility = View.GONE else View.VISIBLE
+            if ((savedData?.isEmpty() == true) || (savedData?.isBlank() == true)) loadName.visibility =
+                View.GONE else View.VISIBLE
             loadName.text = "Hello ${savedData.toString()}!"
         }
     }
@@ -54,11 +56,7 @@ class LoginActivity : AppCompatActivity() {
                 savedIntent.putExtra(LOGIN, nameText)
             }
 
-            Toast.makeText(
-                this@LoginActivity,
-                "$nameText logged in to application",
-                Toast.LENGTH_LONG)
-                .show()
+            setToast("$nameText logged in to application", Toast.LENGTH_LONG)
         }.apply()
     }
 

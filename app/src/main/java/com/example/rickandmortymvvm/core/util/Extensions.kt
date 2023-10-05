@@ -1,0 +1,23 @@
+package com.example.rickandmortymvvm.core.util
+
+import android.app.Activity
+import android.content.Context
+import android.view.View
+import android.widget.Toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+
+fun observeLoadingLiveData(isLoading: Boolean) = if (isLoading) View.VISIBLE else View.GONE
+fun Context.setToast(text: String, length: Int) = Toast.makeText(this, text, length).show()
+
+fun Activity.createSnackBar(message: String, view: View) = Snackbar.make(
+view, message, Snackbar.LENGTH_SHORT
+).show()
+
+fun Context.createPositiveDialog(title: String, message: String, buttonText: String) =
+    MaterialAlertDialogBuilder(this)
+        .setTitle(title).setMessage(message).setPositiveButton(buttonText) { dialog, _ -> dialog.dismiss() }.show()!!
+
+fun Context.createNegativeDialog(title: String, message: String, buttonText: String) =
+    MaterialAlertDialogBuilder(this)
+        .setTitle(title).setMessage(message).setNegativeButton(buttonText) { dialog, _ -> dialog.dismiss() }.show()!!

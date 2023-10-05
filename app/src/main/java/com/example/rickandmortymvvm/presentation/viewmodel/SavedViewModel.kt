@@ -54,6 +54,7 @@ class SavedViewModel @Inject constructor(
 
     fun deleteAllCharacters() = viewModelScope.launch(Dispatchers.IO) {
         _isLoading(true)
+        delay(1000)
         repository.executeDeleteAllCharacters()
         _isLoading(false)
     }

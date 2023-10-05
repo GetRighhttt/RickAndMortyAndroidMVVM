@@ -19,9 +19,9 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
+import com.example.rickandmortymvvm.core.util.createNegativeDialog
 import com.example.rickandmortymvvm.databinding.ActivityRickAndMortyBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.RickAndMortyViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -207,9 +207,10 @@ class RickAndMortyActivity : AppCompatActivity() {
 
                     pbRm.visibility = View.GONE
                 } catch (e: HttpException) {
-                    createMaterialDialog(
-                        this@RickAndMortyActivity,
-                        "Error retrieving data! ${e.printStackTrace()}"
+                    createNegativeDialog(
+                        "Error!",
+                        "Error retrieving data! ${e.printStackTrace()}",
+                        "Cancel"
                     )
                     pbRm.visibility = View.GONE
                 }
@@ -240,9 +241,10 @@ class RickAndMortyActivity : AppCompatActivity() {
 
                     pbRm.visibility = View.GONE
                 } catch (e: HttpException) {
-                    createMaterialDialog(
-                        this@RickAndMortyActivity,
-                        "Error retrieving data! ${e.printStackTrace()}"
+                    createNegativeDialog(
+                        "Error!",
+                        "Error retrieving data! ${e.printStackTrace()}",
+                        "Cancel"
                     )
                     pbRm.visibility = View.GONE
                 }
@@ -273,9 +275,10 @@ class RickAndMortyActivity : AppCompatActivity() {
 
                     pbRm.visibility = View.GONE
                 } catch (e: HttpException) {
-                    createMaterialDialog(
-                        this@RickAndMortyActivity,
-                        "Error retrieving data! ${e.printStackTrace()}"
+                    createNegativeDialog(
+                        "Error!",
+                        "Error retrieving data! ${e.printStackTrace()}",
+                        "Cancel"
                     )
                     pbRm.visibility = View.GONE
                 }
@@ -334,15 +337,6 @@ class RickAndMortyActivity : AppCompatActivity() {
             }
         }
     )
-
-    private fun createMaterialDialog(
-        context: Context,
-        message: String
-    ) = MaterialAlertDialogBuilder(context)
-        .setTitle("Error!")
-        .setMessage(message)
-        .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
-        .show()
 
     override fun onDestroy() {
         super.onDestroy()
