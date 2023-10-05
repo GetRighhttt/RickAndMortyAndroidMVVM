@@ -20,14 +20,18 @@ class DetailsViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private operator fun MutableLiveData<Boolean>.invoke(state: Boolean) {
+        _isLoading.postValue(state)
+    }
+
     init {
         // fault tolerance
-        _isLoading.postValue(false)
+        _isLoading(false)
     }
 
     fun addCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
-        _isLoading.postValue(true)
+        _isLoading(true)
         repository.executeAddCharacter(character)
-        _isLoading.postValue(false)
+        _isLoading(false)
     }
 }

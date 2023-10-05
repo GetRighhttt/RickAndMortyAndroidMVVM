@@ -26,29 +26,36 @@ class SavedViewModel @Inject constructor(
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    /*
+    Adding operator methods with LiveData.
+     */
+    private operator fun MutableLiveData<Boolean>.invoke(state: Boolean?) {
+        _isLoading.postValue(state)
+    }
+
     init {
         // initialize the view model with list of characters saved from Detail Activity
         getAllSavedCharacters()
     }
 
     fun addCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
-        _isLoading.postValue(true)
+        _isLoading(true)
         delay(1000)
         repository.executeAddCharacter(character)
-        _isLoading.postValue(false)
+        _isLoading(false)
     }
 
     fun deleteCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
-        _isLoading.postValue(true)
+        _isLoading(true)
         delay(1000)
         repository.executeDeleteCharacter(character)
-        _isLoading.postValue(false)
+        _isLoading(false)
     }
 
     fun deleteAllCharacters() = viewModelScope.launch(Dispatchers.IO) {
-        _isLoading.postValue(true)
+        _isLoading(true)
         repository.executeDeleteAllCharacters()
-        _isLoading.postValue(false)
+        _isLoading(false)
     }
 
     /*
@@ -57,11 +64,11 @@ class SavedViewModel @Inject constructor(
     activity, but they are not observed there.
      */
     private fun getAllSavedCharacters() = viewModelScope.launch {
-        _isLoading.postValue(true)
+        _isLoading(true)
         delay(1000)
         repository.executeGetSavedCharacters().collectLatest {
             _currentState.postValue(it)
-            _isLoading.postValue(false)
+            _isLoading(false)
         }
     }
 }
