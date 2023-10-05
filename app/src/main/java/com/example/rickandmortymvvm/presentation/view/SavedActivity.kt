@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
+import com.example.rickandmortymvvm.core.util.createPositiveDialog
+import com.example.rickandmortymvvm.core.util.createSnackBar
 import com.example.rickandmortymvvm.core.util.createSnackBarWithCoroutineAction
 import com.example.rickandmortymvvm.core.util.observeLoadingLiveData
 import com.example.rickandmortymvvm.databinding.ActivitySavedBinding
@@ -69,15 +71,13 @@ class SavedActivity : AppCompatActivity() {
             // onclick listener for when the user is clicked
             scAdapter.setOnItemClickListener {
 
-                MaterialAlertDialogBuilder(this)
-                    .setTitle(it.name)
-                    .setMessage(
-                        "${it.name} is a ${it.gender.lowercase()} ${it.species.lowercase()}. " +
-                                "${it.name} was created ${it.created.dropLast(14)} " +
-                                "and is currently ${it.status.lowercase()}."
-                    )
-                    .setPositiveButton("OK") { _, _ -> }
-                    .show()
+                createPositiveDialog(
+                    it.name,
+                    "${it.name} is a ${it.gender.lowercase()} ${it.species.lowercase()}. " +
+                            "${it.name} was created ${it.created.dropLast(14)} " +
+                            "and is currently ${it.status.lowercase()}.",
+                    "OK"
+                )
             }
         }
     }
@@ -109,20 +109,18 @@ class SavedActivity : AppCompatActivity() {
                                 .setMessage("Are you sure you want to delete all characters from your database?")
                                 .setNeutralButton("Cancel") { dialog, _ -> dialog.cancel() }
                                 .setNegativeButton("No") { dialog, _ ->
-                                    Snackbar.make(
-                                        binding.root,
+                                    createSnackBar(
                                         "Characters not deleted as requested by user.",
-                                        Snackbar.LENGTH_LONG
-                                    ).show()
+                                        binding.root
+                                    )
                                 }
                                 .setPositiveButton("Yes") { _, _ ->
                                     lifecycleScope.launch {
                                         viewModel.deleteAllCharacters()
-                                        Snackbar.make(
-                                            binding.root,
+                                        createSnackBar(
                                             "Characters deleted from Database Successfully",
-                                            Snackbar.LENGTH_LONG
-                                        ).show()
+                                            binding.root
+                                        )
                                     }
                                 }.show()
                         }
@@ -171,9 +169,14 @@ class SavedActivity : AppCompatActivity() {
                 val position = viewHolder.adapterPosition
                 val character = scAdapter.differ.currentList[position]
                 viewModel.deleteCharacter(character)
-                createSnackBarWithCoroutineAction("Character Deleted", binding.root, lifecycleScope.launch {
-                    viewModel.addCharacter(character)
-                }, "Undo")
+                createSnackBarWithCoroutineAction(
+                    "Character Deleted",
+                    binding.root,
+                    lifecycleScope.launch {
+                        viewModel.addCharacter(character)
+                    },
+                    "Undo"
+                )
 
             }
         }
