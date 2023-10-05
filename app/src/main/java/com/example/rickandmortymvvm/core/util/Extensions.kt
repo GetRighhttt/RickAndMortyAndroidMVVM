@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 
 fun observeLoadingLiveData(isLoading: Boolean) = if (isLoading) View.VISIBLE else View.GONE
 fun Context.setToast(text: String, length: Int) = Toast.makeText(this, text, length).show()
@@ -37,3 +39,5 @@ fun Context.createNegativeDialog(title: String, message: String, buttonText: Str
     MaterialAlertDialogBuilder(this)
         .setTitle(title).setMessage(message)
         .setNegativeButton(buttonText) { dialog, _ -> dialog.dismiss() }.show()!!
+
+suspend infix fun CoroutineScope.addDelay(timeUnit: Long) = delay(timeUnit)

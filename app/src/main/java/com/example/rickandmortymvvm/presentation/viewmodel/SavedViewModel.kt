@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.rickandmortymvvm.core.util.addDelay
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.domain.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,21 +40,21 @@ class SavedViewModel @Inject constructor(
 
     fun addCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
         _isLoading(true)
-        delay(1000)
+        this addDelay 1000
         repository.executeAddCharacter(character)
         _isLoading(false)
     }
 
     fun deleteCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
         _isLoading(true)
-        delay(1000)
+        this addDelay 1000
         repository.executeDeleteCharacter(character)
         _isLoading(false)
     }
 
     fun deleteAllCharacters() = viewModelScope.launch(Dispatchers.IO) {
         _isLoading(true)
-        delay(1000)
+        this addDelay 1000
         repository.executeDeleteAllCharacters()
         _isLoading(false)
     }
@@ -66,7 +66,7 @@ class SavedViewModel @Inject constructor(
      */
     private fun getAllSavedCharacters() = viewModelScope.launch {
         _isLoading(true)
-        delay(1000)
+        this addDelay 1000
         repository.executeGetSavedCharacters().collectLatest {
             _currentState.postValue(it)
             _isLoading(false)
