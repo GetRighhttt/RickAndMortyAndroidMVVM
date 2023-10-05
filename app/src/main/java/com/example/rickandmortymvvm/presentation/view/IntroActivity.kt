@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.rickandmortymvvm.core.util.addDelay
 import com.example.rickandmortymvvm.databinding.ActivityIntroBinding
+import kotlinx.coroutines.launch
 
 class IntroActivity : AppCompatActivity() {
     private var _binding: ActivityIntroBinding? = null
@@ -35,6 +38,9 @@ class IntroActivity : AppCompatActivity() {
                 startActivity(
                     Intent(this@IntroActivity, LoginActivity::class.java)
                 )
+                lifecycleScope.launch {
+                    this addDelay 1000
+                }
                 finish()
             }, 1200
         )

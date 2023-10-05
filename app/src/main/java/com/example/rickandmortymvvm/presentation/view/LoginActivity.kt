@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.rickandmortymvvm.core.util.addDelay
 import com.example.rickandmortymvvm.core.util.setToast
 import com.example.rickandmortymvvm.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -62,6 +65,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateToNewScreen() = binding.apply {
         loginButton.setOnClickListener {
+            lifecycleScope.launch {
+                this addDelay 500
+            }
             saveData()
             val intent = Intent(this@LoginActivity, RickAndMortyActivity::class.java)
             startActivity(intent)

@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
-fun observeLoadingLiveData(isLoading: Boolean) = if (isLoading) View.VISIBLE else View.GONE
+infix fun Activity.observeLoadingLiveData(isLoading: Boolean) = if (isLoading) View.VISIBLE else View.GONE
 fun Context.setToast(text: String, length: Int) = Toast.makeText(this, text, length).show()
 
 fun Activity.createSnackBar(message: String, view: View) = Snackbar.make(

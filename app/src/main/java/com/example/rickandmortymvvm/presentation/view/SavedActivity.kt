@@ -57,7 +57,7 @@ class SavedActivity : AppCompatActivity() {
     }
 
     private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
-        binding.pbSaved.visibility = observeLoadingLiveData(isLoading)
+        binding.pbSaved.visibility = this observeLoadingLiveData isLoading
     }
 
     @SuppressLint("NotifyDataSetChanged")
