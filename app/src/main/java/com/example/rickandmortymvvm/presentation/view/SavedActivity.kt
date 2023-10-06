@@ -16,7 +16,7 @@ import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.core.util.createPositiveDialog
 import com.example.rickandmortymvvm.core.util.createSnackBar
 import com.example.rickandmortymvvm.core.util.createSnackBarWithCoroutineAction
-import com.example.rickandmortymvvm.core.util.observeLoadingLiveData
+import com.example.rickandmortymvvm.core.util.setVisibilityOf
 import com.example.rickandmortymvvm.databinding.ActivitySavedBinding
 import com.example.rickandmortymvvm.presentation.viewmodel.SavedViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -58,7 +58,7 @@ class SavedActivity : AppCompatActivity() {
     }
 
     private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
-        binding.pbSaved.visibility = this observeLoadingLiveData isLoading
+        binding.pbSaved.visibility = this setVisibilityOf isLoading
     }
 
     @SuppressLint("NotifyDataSetChanged")

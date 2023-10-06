@@ -14,6 +14,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.core.util.createPositiveDialog
 import com.example.rickandmortymvvm.core.util.createSnackBar
+import com.example.rickandmortymvvm.core.util.setImage
+import com.example.rickandmortymvvm.core.util.setVisibilityOf
 import com.example.rickandmortymvvm.databinding.ActivityDetailsBinding
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.presentation.viewmodel.DetailsViewModel
@@ -56,7 +58,7 @@ class DetailsActivity : AppCompatActivity() {
         intent.getParcelableExtra<RickAndMorty>(SavedActivity.SAVED_CHARACTERS)
 
     private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
-        binding.pbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.pbLoading.visibility = this setVisibilityOf isLoading
     }
 
     @SuppressLint("SetTextI18n")
@@ -68,14 +70,8 @@ class DetailsActivity : AppCompatActivity() {
 
                 rmDetails?.let {
 
-                    // scale and transform image to our needs using Glide.
-                    Glide.with(ivImage.context)
-                        .load(rmDetails.image)
-                        .placeholder(R.drawable.baseline_person_24)
-                        .circleCrop()
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .into(ivImage)
-
+                    // set image with Glide extension method
+                    ivImage.setImage(rmDetails.image, ivImage)
                     tvName.text = it.name
                     tvGender.text = "| ${it.gender}"
                     tvSpecies.text = it.species

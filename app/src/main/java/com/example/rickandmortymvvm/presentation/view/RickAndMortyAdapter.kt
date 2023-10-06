@@ -7,9 +7,8 @@ import android.view.animation.AnimationUtils
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.rickandmortymvvm.R
+import com.example.rickandmortymvvm.core.util.setImage
 import com.example.rickandmortymvvm.databinding.RmListItemBinding
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
 
@@ -44,14 +43,8 @@ class RickAndMortyAdapter(
             binding.apply {
                 rmFullName.text = rmUser.name
 
-                // scale and transform image to our needs using Glide.
-                Glide.with(rmImage.context)
-                    .load(rmUser.image)
-                    .placeholder(R.drawable.baseline_person_24)
-                    .circleCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(rmImage)
-
+                // set image with Glide extension method
+                rmImage.setImage(rmUser.image, rmImage)
                 root.setOnClickListener {
                     onItemClickListener?.let {
                         it(rmUser)
