@@ -91,7 +91,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                 R.id.nav_share -> {
                     rvRmList.smoothScrollToPosition(0)
                     rmSearchView.clearFocus()
-                    createSnackBar("Loading Email...", binding.root)
+                    createSnackBar("Loading...", binding.root)
 
                     // share an email about the application
                     val intent = Intent(Intent.ACTION_SEND).apply {
