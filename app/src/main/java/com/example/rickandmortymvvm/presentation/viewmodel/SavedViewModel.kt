@@ -66,7 +66,7 @@ class SavedViewModel @Inject constructor(
      */
     private fun getAllSavedCharacters() = viewModelScope.launch {
         _isLoading(true)
-        this addDelay { 1000 }
+        addDelay { 1000 }
         repository.executeGetSavedCharacters().collectLatest {
             _currentState.postValue(it)
             _isLoading(false)
