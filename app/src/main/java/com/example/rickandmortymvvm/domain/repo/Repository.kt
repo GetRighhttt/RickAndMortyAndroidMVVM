@@ -49,9 +49,9 @@ class Repository @Inject constructor(
 
     suspend fun executeAddCharacter(character: RickAndMorty) = withContext(Dispatchers.IO) { characterDAO.insert(character) }
 
-    fun executeGetSavedCharacters(): Flow<List<RickAndMorty>> = characterDAO.getAllCharacters()
+    val executeGetSavedCharacters: () -> Flow<List<RickAndMorty>> = { characterDAO.getAllCharacters() }
 
-    fun executeDeleteAllCharacters() = characterDAO.deleteAll()
+    val executeDeleteAllCharacters: () -> Unit = { characterDAO.deleteAll() }
 
     suspend fun executeDeleteCharacter(character: RickAndMorty) = withContext(Dispatchers.IO) {
         characterDAO.deleteCharacter(character)

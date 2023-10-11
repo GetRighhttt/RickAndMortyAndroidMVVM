@@ -21,7 +21,7 @@ class IntroActivity : AppCompatActivity() {
         startAnimation()
     }
 
-    private fun startAnimation() {
+    val startAnimation: () -> Unit = {
         binding.ivRm.animate().apply {
             duration = 200L
             translationXBy(-360f)

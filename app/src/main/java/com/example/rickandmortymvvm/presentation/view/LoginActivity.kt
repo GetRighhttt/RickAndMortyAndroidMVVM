@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun loadData() {
+   val loadData: () -> Unit = {
         val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
         val savedData = sharedPreferences.getString(LOGIN, null)
 
@@ -45,32 +45,36 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveData() = binding.apply {
-        val nameText = nameLogin.text.toString()
-        val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.apply {
-            // value save to edit text in string
-            putString(LOGIN, nameText)
-        }.also {
+    val saveData: () -> ActivityLoginBinding = {
+        binding.apply {
+            val nameText = nameLogin.text.toString()
+            val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.apply {
+                // value save to edit text in string
+                putString(LOGIN, nameText)
+            }.also {
 
-            val savedIntent = Intent(this@LoginActivity, RickAndMortyActivity::class.java)
-            Bundle().apply {
-                savedIntent.putExtra(LOGIN, nameText)
-            }
+                val savedIntent = Intent(this@LoginActivity, RickAndMortyActivity::class.java)
+                Bundle().apply {
+                    savedIntent.putExtra(LOGIN, nameText)
+                }
 
-            setToast("$nameText logged in to application", Toast.LENGTH_SHORT)
-        }.apply()
+                setToast("$nameText logged in to application", Toast.LENGTH_SHORT)
+            }.apply()
+        }
     }
 
-    private fun navigateToNewScreen() = binding.apply {
-        loginButton.setOnClickListener {
-            lifecycleScope.launch {
-                addDelay { 500 }
+    val navigateToNewScreen: () -> ActivityLoginBinding = {
+        binding.apply {
+            loginButton.setOnClickListener {
+                lifecycleScope.launch {
+                    addDelay { 500 }
+                }
+                saveData()
+                val intent = Intent(this@LoginActivity, RickAndMortyActivity::class.java)
+                startActivity(intent)
             }
-            saveData()
-            val intent = Intent(this@LoginActivity, RickAndMortyActivity::class.java)
-            startActivity(intent)
         }
     }
 

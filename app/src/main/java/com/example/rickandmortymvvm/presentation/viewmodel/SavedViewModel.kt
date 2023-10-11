@@ -9,6 +9,7 @@ import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.domain.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,11 +53,13 @@ class SavedViewModel @Inject constructor(
         _isLoading(false)
     }
 
-    fun deleteAllCharacters() = viewModelScope.launch(Dispatchers.IO) {
-        _isLoading(true)
-        addDelay { 1000 }
-        repository.executeDeleteAllCharacters()
-        _isLoading(false)
+    val deleteAllCharacters: () -> Job = {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading(true)
+            addDelay { 1000 }
+            repository.executeDeleteAllCharacters()
+            _isLoading(false)
+        }
     }
 
     /*
