@@ -58,7 +58,7 @@ class SavedActivity : AppCompatActivity() {
     }
 
     private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
-        binding.pbSaved.visibility = this setVisibilityOf isLoading
+        binding.pbSaved.visibility = this setVisibilityOf { isLoading }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -170,8 +170,10 @@ class SavedActivity : AppCompatActivity() {
                 createSnackBarWithCoroutineAction(
                     "Character Deleted",
                     binding.root,
-                    lifecycleScope.launch {
-                        viewModel.addCharacter(character)
+                    action = {
+                        lifecycleScope.launch {
+                            viewModel.addCharacter(character)
+                        }
                     },
                     "Undo"
                 )

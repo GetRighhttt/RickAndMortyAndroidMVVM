@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToNewScreen() = binding.apply {
         loginButton.setOnClickListener {
             lifecycleScope.launch {
-                this addDelay 500
+                this addDelay { 500 }
             }
             saveData()
             val intent = Intent(this@LoginActivity, RickAndMortyActivity::class.java)

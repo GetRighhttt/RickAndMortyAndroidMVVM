@@ -40,21 +40,21 @@ class SavedViewModel @Inject constructor(
 
     fun addCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
         _isLoading(true)
-        this addDelay 1000
+        this addDelay { 1000 }
         repository.executeAddCharacter(character)
         _isLoading(false)
     }
 
     fun deleteCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
         _isLoading(true)
-        this addDelay 1000
+        this addDelay { 1000 }
         repository.executeDeleteCharacter(character)
         _isLoading(false)
     }
 
     fun deleteAllCharacters() = viewModelScope.launch(Dispatchers.IO) {
         _isLoading(true)
-        this addDelay 1000
+        this addDelay { 1000 }
         repository.executeDeleteAllCharacters()
         _isLoading(false)
     }
@@ -66,7 +66,7 @@ class SavedViewModel @Inject constructor(
      */
     private fun getAllSavedCharacters() = viewModelScope.launch {
         _isLoading(true)
-        this addDelay 1000
+        this addDelay { 1000 }
         repository.executeGetSavedCharacters().collectLatest {
             _currentState.postValue(it)
             _isLoading(false)

@@ -13,24 +13,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
-infix fun Activity.setVisibilityOf(isLoading: Boolean) = if (isLoading) View.VISIBLE else View.GONE
+inline infix fun Activity.setVisibilityOf(isLoading: () -> Boolean) =
+    if (isLoading()) View.VISIBLE else View.GONE
+
 fun Context.setToast(text: String, length: Int) = Toast.makeText(this, text, length).show()
 
 fun Activity.createSnackBar(message: String, view: View) = Snackbar.make(
     view, message, Snackbar.LENGTH_SHORT
 ).show()
 
-fun Activity.createSnackBarWithCoroutineAction(
+inline fun Activity.createSnackBarWithCoroutineAction(
     message: String,
     view: View,
-    action: Job,
+    crossinline action: () -> Job,
     actionText: String
 ) = Snackbar.make(
     view, message, Snackbar.LENGTH_SHORT
 )
-    .setAction(actionText) {
-        action
-    }
+    .setAction(actionText) { action() }
     .show()
 
 fun Context.createPositiveDialog(title: String, message: String, buttonText: String) =
@@ -43,7 +43,7 @@ fun Context.createNegativeDialog(title: String, message: String, buttonText: Str
         .setTitle(title).setMessage(message)
         .setNegativeButton(buttonText) { dialog, _ -> dialog.dismiss() }.show()!!
 
-suspend infix fun CoroutineScope.addDelay(timeUnit: Long) = delay(timeUnit)
+suspend inline infix fun CoroutineScope.addDelay(timeUnit: () -> Long) = delay(timeUnit())
 
 fun ImageView.setImage(
     uri: String,

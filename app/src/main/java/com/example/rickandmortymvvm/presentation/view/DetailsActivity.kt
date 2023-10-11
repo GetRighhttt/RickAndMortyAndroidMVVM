@@ -58,7 +58,7 @@ class DetailsActivity : AppCompatActivity() {
         intent.getParcelableExtra<RickAndMorty>(SavedActivity.SAVED_CHARACTERS)
 
     private fun observeLoadingState() = viewModel.isLoading.observe(this) { isLoading ->
-        binding.pbLoading.visibility = this setVisibilityOf isLoading
+        binding.pbLoading.visibility = this setVisibilityOf { isLoading }
     }
 
     @SuppressLint("SetTextI18n")
