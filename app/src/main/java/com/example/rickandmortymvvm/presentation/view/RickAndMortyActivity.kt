@@ -60,6 +60,10 @@ class RickAndMortyActivity : AppCompatActivity() {
             setNavigationDrawer()
         }
 
+        updateScreenState()
+    }
+
+    private fun updateScreenState() {
         initRecyclerViewAndLoadStateAdapter()
         setupSearchView()
         collectRickAndMortyResults()

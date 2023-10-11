@@ -28,9 +28,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        loadData()
-        navigateToNewScreen()
+        updateScreenState()
     }
 
     @SuppressLint("SetTextI18n")
@@ -76,6 +74,11 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun updateScreenState() {
+        loadData()
+        navigateToNewScreen()
     }
 
     override fun onDestroy() {

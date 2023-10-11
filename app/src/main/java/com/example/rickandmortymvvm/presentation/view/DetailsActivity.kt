@@ -43,7 +43,10 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        updateScreenState()
+    }
 
+    private fun updateScreenState() {
         displayUserInfoFromSaved()
         displayUserInfoFromMain()
         setNavigationIcon()

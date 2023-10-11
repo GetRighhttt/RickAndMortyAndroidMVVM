@@ -41,7 +41,10 @@ class SavedActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.topUserAppBar.title =
             "${getSharedPrefsData(this@SavedActivity)}'s Saved Characters"
+        updateScreenState()
+    }
 
+    private fun updateScreenState() {
         observeLiveData()
         initRecyclerView()
         setNavigationIcon()
