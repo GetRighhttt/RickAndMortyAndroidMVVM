@@ -18,9 +18,9 @@ inline infix fun Activity.setVisibilityOf(isLoading: () -> Boolean) =
 
 fun Context.setToast(text: String, length: Int) = Toast.makeText(this, text, length).show()
 
-fun createSnackBar(message: String, view: View) = Snackbar.make(
+val createSnackBar = { message: String, view: View -> Snackbar.make(
     view, message, Snackbar.LENGTH_SHORT
-).show()
+).show() }
 
 inline fun createSnackBarWithCoroutineAction(
     message: String,
