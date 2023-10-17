@@ -166,7 +166,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                 R.id.nav_home -> {
                     val rickAndMortyList = listOf("abcdefgirls", "mnopfesdf")
                     rvRmList.smoothScrollToPosition(0)
-                    viewModel.searchCharacters(
+                    viewModel.searchCharacterJob(
                         rickAndMortyList.subList(0, 1).random().first().toString()
                     )
                     // sets name of Home screen to user name entered in Login Activity
@@ -196,7 +196,7 @@ class RickAndMortyActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     private fun collectRickAndMortyResults() = lifecycleScope.launch {
         binding.apply {
-            viewModel.rickAndMortyResults.observe(this@RickAndMortyActivity) {
+            viewModel.rickAndMortyResult.observe(this@RickAndMortyActivity) {
                 try {
                     rmAdapter.notifyDataSetChanged()
                     rmAdapter.submitData(lifecycle, it)
@@ -230,7 +230,7 @@ class RickAndMortyActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     private fun collectMaleData() = lifecycleScope.launch {
         binding.apply {
-            viewModel.maleGender.observe(this@RickAndMortyActivity) {
+            viewModel.maleGenderResult.observe(this@RickAndMortyActivity) {
                 try {
                     rmAdapter.notifyDataSetChanged()
                     rmAdapter.submitData(lifecycle, it)
@@ -264,7 +264,7 @@ class RickAndMortyActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     private fun collectFemaleData() = lifecycleScope.launch {
         binding.apply {
-            viewModel.femaleGender.observe(this@RickAndMortyActivity) {
+            viewModel.femaleGenderResult.observe(this@RickAndMortyActivity) {
                 try {
                     rmAdapter.notifyDataSetChanged()
                     rmAdapter.submitData(lifecycle, it)
@@ -325,7 +325,7 @@ class RickAndMortyActivity : AppCompatActivity() {
 
                 if (query != null) {
                     binding.rvRmList.smoothScrollToPosition(0)
-                    viewModel.searchCharacters(query)
+                    viewModel.searchCharacterJob(query)
                     clearFocus()
                 }
                 return true
