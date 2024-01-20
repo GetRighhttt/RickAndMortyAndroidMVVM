@@ -19,11 +19,6 @@ class LoginActivity : AppCompatActivity() {
     private var _binding: ActivityLoginBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        const val LOGIN = "LOGIN"
-        const val TAG = "LOGCAT_LOGIN"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -84,5 +79,10 @@ class LoginActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        const val LOGIN = "LOGIN"
+        const val TAG = "LOGCAT_LOGIN"
     }
 }

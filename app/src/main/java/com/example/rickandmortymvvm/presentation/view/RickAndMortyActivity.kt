@@ -37,10 +37,6 @@ class RickAndMortyActivity : AppCompatActivity() {
     private lateinit var rmAdapter: RickAndMortyAdapter
     private lateinit var toggle: ActionBarDrawerToggle
 
-    companion object {
-        const val EXTRA_MAIN = "EXTRA_MAIN"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityRickAndMortyBinding.inflate(layoutInflater)
@@ -350,5 +346,9 @@ class RickAndMortyActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        const val EXTRA_MAIN = "EXTRA_MAIN"
     }
 }
