@@ -30,14 +30,9 @@ class DetailsActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     private val viewModel: DetailsViewModel by viewModels()
 
-    companion object {
-        const val EXTRA_DETAIL = "EXTRA_DETAIL"
-    }
-
     init {
         Log.d(EXTRA_DETAIL, "Detail class started")
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +40,7 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
         updateScreenState()
     }
+
 
     private fun updateScreenState() {
         displayUserInfoFromSaved()
@@ -172,10 +168,13 @@ class DetailsActivity : AppCompatActivity() {
             }
             .show()
 
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        const val EXTRA_DETAIL = "EXTRA_DETAIL"
     }
 }
 
