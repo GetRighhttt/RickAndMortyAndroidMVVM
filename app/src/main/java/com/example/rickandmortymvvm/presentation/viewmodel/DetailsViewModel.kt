@@ -21,8 +21,11 @@ class DetailsViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     // operator invoke methods
-    private operator fun MutableLiveData<Boolean>.invoke(state: Boolean) = _isLoading.postValue(state)
-    private suspend operator fun Repository.invoke(character: RickAndMorty) = repository.executeAddCharacter(character)
+    private operator fun MutableLiveData<Boolean>.invoke(state: Boolean) =
+        _isLoading.postValue(state)
+
+    private suspend operator fun Repository.invoke(character: RickAndMorty) =
+        repository.executeAddCharacter(character)
 
     init {
         // fault tolerance

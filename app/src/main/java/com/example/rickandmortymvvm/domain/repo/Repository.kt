@@ -47,9 +47,11 @@ class Repository @Inject constructor(
         pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
     ).liveData
 
-    suspend fun executeAddCharacter(character: RickAndMorty) = withContext(Dispatchers.IO) { characterDAO.insert(character) }
+    suspend fun executeAddCharacter(character: RickAndMorty) =
+        withContext(Dispatchers.IO) { characterDAO.insert(character) }
 
-    val executeGetSavedCharacters: () -> Flow<List<RickAndMorty>> = { characterDAO.getAllCharacters() }
+    val executeGetSavedCharacters: () -> Flow<List<RickAndMorty>> =
+        { characterDAO.getAllCharacters() }
 
     val executeDeleteAllCharacters: () -> Unit = { characterDAO.deleteAll() }
 

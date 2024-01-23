@@ -28,7 +28,8 @@ class SavedViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     // operator methods
-    private operator fun MutableLiveData<Boolean>.invoke(state: Boolean?) = _isLoading.postValue(state)
+    private operator fun MutableLiveData<Boolean>.invoke(state: Boolean?) =
+        _isLoading.postValue(state)
 
     init {
         // initialize the view model with list of characters saved from Detail Activity
