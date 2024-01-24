@@ -17,7 +17,7 @@ class DetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     // Loading state
-    private val _isLoading = MutableLiveData<Boolean>(false)
+    private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     // operator invoke methods

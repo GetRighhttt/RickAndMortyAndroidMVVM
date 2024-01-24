@@ -55,8 +55,7 @@ class Repository @Inject constructor(
 
     val executeDeleteAllCharacters: () -> Unit = { characterDAO.deleteAll() }
 
-    suspend fun executeDeleteCharacter(character: RickAndMorty) = withContext(Dispatchers.IO) {
-        characterDAO.deleteCharacter(character)
-    }
+    suspend fun executeDeleteCharacter(character: RickAndMorty) = withContext(Dispatchers.IO)
+    { characterDAO.deleteCharacter(character) }
 
 }
