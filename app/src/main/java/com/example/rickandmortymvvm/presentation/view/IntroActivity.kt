@@ -38,11 +38,8 @@ class IntroActivity : AppCompatActivity() {
                 startActivity(
                     Intent(this@IntroActivity, LoginActivity::class.java)
                 )
-                lifecycleScope.launch {
-                    addDelay { 1000L }
-                }
                 finish()
-            }, 1200
+            }, 1000
         )
     }
 

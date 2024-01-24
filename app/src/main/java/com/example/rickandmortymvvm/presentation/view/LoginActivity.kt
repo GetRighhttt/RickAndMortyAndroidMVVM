@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         binding.apply {
             loginButton.setOnClickListener {
                 lifecycleScope.launch {
-                    addDelay { 500 }
+                    addDelay { 200 }
                 }
                 saveData()
                 val intent = Intent(this@LoginActivity, RickAndMortyActivity::class.java)
