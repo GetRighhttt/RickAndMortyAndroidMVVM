@@ -39,3 +39,8 @@ https://github.com/GetRighhttt/RickAndMortyAndroidMVVM/assets/105057858/939ae1b9
 
 https://github.com/GetRighhttt/RickAndMortyAndroidMVVM/assets/105057858/a19c935f-0326-484b-abe4-7ec156bab42d
 
+### Showing YouTube, Website, and Share Functionality
+
+https://github.com/GetRighhttt/RickAndMortyAndroidMVVM/assets/105057858/e248d78f-b601-487b-963f-ebdcfc50e541
+
+
