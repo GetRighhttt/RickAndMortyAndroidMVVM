@@ -31,8 +31,8 @@ class SavedViewModel @Inject constructor(
     private operator fun MutableLiveData<Boolean>.invoke(state: Boolean?) =
         _isLoading.postValue(state)
 
+    // init block to get all saved characters before initiating any other actions
     init {
-        // initialize the view model with list of characters saved from Detail Activity
         getAllSavedCharacters()
     }
 
