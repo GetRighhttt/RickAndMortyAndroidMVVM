@@ -4,19 +4,11 @@
 The app allows users to search for their favorite rick and morty characters, save them as favorites, full CRUD functionality, and go to their youtube and website all in one. 
 
 ## **Installation**
-
- 
-
-To install Project Title, follow these steps:
-
  
 1. Have Android Studio downloaded.
 2. Clone the repository into Android Studio: **`git clone: "git@github.com:GetRighhttt/RickAndMortyAndroidMVVM.git" `**
 
 ## **Usage**
-
-To use Project Title, follow these steps:
-
 1. Open the project in Android Studio.
 
 2. Modify the source code to fit your needs.
@@ -28,9 +20,6 @@ To use Project Title, follow these steps:
 5. Use the project as desired.
 
 ## **Contributing**
-
-If you'd like to contribute to Project Title, here are some guidelines:
- 
 
 1. Fork the repository.
 
@@ -53,7 +42,7 @@ If you'd like to contribute to Project Title, here are some guidelines:
 
 ## **Contact**
 
-If you have any questions or comments about Project Title, please contact **stefanbusiness95@gmail.com**.
+If you have any questions or comments, please contact **stefanbusiness95@gmail.com**.
 
 #### Here is a list of all the features used in this application:
 
