@@ -1,7 +1,7 @@
 ## **Rick and Morty**
 
 ## **Introduction**
-The app allows users to search for their favorite rick and morty characters, save them as favorites, full CRUD functionality, and go to their youtube and website all in one. 
+The app allows users to search for their favorite Rick and Morty characters, save them as favorites, have full CRUD functionality, and go to their YouTube and website all in one. 
 
 ## **Installation**
  
