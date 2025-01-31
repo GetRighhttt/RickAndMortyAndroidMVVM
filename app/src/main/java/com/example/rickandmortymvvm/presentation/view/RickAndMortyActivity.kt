@@ -264,7 +264,6 @@ class RickAndMortyActivity : AppCompatActivity() {
                 try {
                     rmAdapter.notifyDataSetChanged()
                     rmAdapter.submitData(lifecycle, it)
-
                     rmAdapter.setOnItemClickListener {
                         val detailIntent =
                             Intent(
