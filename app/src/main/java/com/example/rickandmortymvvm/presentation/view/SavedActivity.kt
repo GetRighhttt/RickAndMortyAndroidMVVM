@@ -31,10 +31,6 @@ class SavedActivity : AppCompatActivity() {
     private lateinit var scAdapter: SavedCharactersAdapter
     private val viewModel: SavedViewModel by viewModels()
 
-    companion object {
-        const val SAVED_CHARACTERS = "SAVED_CHARACTERS"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivitySavedBinding.inflate(layoutInflater)
@@ -192,5 +188,9 @@ class SavedActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        const val SAVED_CHARACTERS = "SAVED_CHARACTERS"
     }
 }
