@@ -27,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-   val loadData: () -> Unit = {
+    val loadData: () -> Unit = {
         val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
         val savedData = sharedPreferences.getString(LOGIN, null)
 
