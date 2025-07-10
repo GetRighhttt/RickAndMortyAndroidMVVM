@@ -2,9 +2,7 @@ package com.example.rickandmortymvvm.presentation.view
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -13,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -78,7 +77,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                     // navigate to Rick and Morty website
                     val uriString = "https://www.adultswim.com/videos/rick-and-morty/rick-and-morty"
                     val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = Uri.parse(uriString)
+                        data = uriString.toUri()
                     }
                     try { // error handling
                         startActivity(intent)
@@ -122,7 +121,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                     val youtubeString =
                         "https://www.youtube.com/results?search_query=rick+and+morty"
                     val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = Uri.parse(youtubeString)
+                        data = youtubeString.toUri()
                     }
                     try { // error handling
                         createSnackBar("Loading Youtube...", binding.root)
@@ -167,7 +166,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                     )
                     // sets name of Home screen to user name entered in Login Activity
                     topUserAppBar.title =
-                        "${getSharedPrefsData(this@RickAndMortyActivity)}'s Home Page"
+                        "${getSharedPrefsData()}'s Home Page"
                     createSnackBar("Going Home", binding.root)
                     drawerLayout.close()
                 }
@@ -177,7 +176,7 @@ class RickAndMortyActivity : AppCompatActivity() {
     }
 
     // Using shared preferences from Login activity to populate Home page action bar title
-    private fun getSharedPrefsData(context: Context?): String? {
+    private fun getSharedPrefsData(): String? {
         val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
         return sharedPreferences.getString(LoginActivity.LOGIN, null)
     }

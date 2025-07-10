@@ -74,10 +74,12 @@ class RickAndMortyAdapter(
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RickAndMortyAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
             holder.bind(currentItem)
+        } else {
+            return
         }
         holder.rmListItem.startAnimation(
             AnimationUtils.loadAnimation(holder.itemView.context, R.anim.favorite_anim)
