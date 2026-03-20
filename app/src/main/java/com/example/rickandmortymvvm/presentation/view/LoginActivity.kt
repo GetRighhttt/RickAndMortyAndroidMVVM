@@ -12,6 +12,7 @@ import com.example.rickandmortymvvm.core.util.setToast
 import com.example.rickandmortymvvm.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -42,19 +43,17 @@ class LoginActivity : AppCompatActivity() {
         binding.apply {
             val nameText = nameLogin.text.toString()
             val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.apply {
-                // value save to edit text in string
-                putString(LOGIN, nameText)
-            }.also {
-
-                val savedIntent = Intent(this@LoginActivity, RickAndMortyActivity::class.java)
-                Bundle().apply {
-                    savedIntent.putExtra(LOGIN, nameText)
+            sharedPreferences.edit {
+                apply {
+                    putString(LOGIN, nameText)
+                }.also {
+                    val savedIntent = Intent(this@LoginActivity, RickAndMortyActivity::class.java)
+                    Bundle().apply {
+                        savedIntent.putExtra(LOGIN, nameText)
+                    }
+                    setToast("$nameText logged in to application", Toast.LENGTH_SHORT)
                 }
-
-                setToast("$nameText logged in to application", Toast.LENGTH_SHORT)
-            }.apply()
+            }
         }
     }
 

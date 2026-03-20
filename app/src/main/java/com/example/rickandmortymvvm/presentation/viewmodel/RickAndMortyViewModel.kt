@@ -17,14 +17,13 @@ import javax.inject.Inject
 @HiltViewModel
 class RickAndMortyViewModel @Inject constructor(
     private val repository: Repository,
-    saved: SavedStateHandle // tries to saves position of recycler view when app is killed
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val currentQuery = saved.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
+    private val currentQuery = savedStateHandle.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
     private val maleGenderData = MutableLiveData(DEFAULT_QUERY)
     private val femaleGenderData = MutableLiveData(DEFAULT_QUERY)
 
-    // using lambdas instead of methods
     val rickAndMortyResult = currentQuery.switchMap { queryString ->
         repository.searchAllCharacters(queryString, "").cachedIn(viewModelScope)
     }

@@ -124,7 +124,6 @@ class RickAndMortyActivity : AppCompatActivity() {
                         data = youtubeString.toUri()
                     }
                     try { // error handling
-                        createSnackBar("Loading Youtube...", binding.root)
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
