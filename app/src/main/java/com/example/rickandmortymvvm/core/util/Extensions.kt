@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.rickandmortymvvm.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
@@ -35,15 +36,15 @@ inline fun createSnackBarWithCoroutineAction(
     .setAction(actionText) { action() }
     .show()
 
-fun Context.createPositiveDialog(title: String, message: String, buttonText: String) =
+fun Context.createPositiveDialog(title: String, message: String, buttonText: String): Any? =
     MaterialAlertDialogBuilder(this)
         .setTitle(title).setMessage(message)
-        .setPositiveButton(buttonText) { dialog, _ -> dialog.dismiss() }.show()!!
+        .setPositiveButton(buttonText) { dialog, _ -> dialog.dismiss() }.show()
 
-fun Context.createNegativeDialog(title: String, message: String, buttonText: String) =
+fun Context.createNegativeDialog(title: String, message: String, buttonText: String): Any? =
     MaterialAlertDialogBuilder(this)
         .setTitle(title).setMessage(message)
-        .setNegativeButton(buttonText) { dialog, _ -> dialog.dismiss() }.show()!!
+        .setNegativeButton(buttonText) { dialog, _ -> dialog.dismiss() }.show()
 
 suspend inline infix fun CoroutineScope.addDelay(timeUnit: () -> Long) = delay(timeUnit())
 
@@ -52,7 +53,7 @@ fun ImageView.setImage(
     imageView: ImageView
 ) = Glide.with(this)
     .load(uri)
-    .placeholder(com.example.rickandmortymvvm.R.drawable.baseline_person_24)
+    .placeholder(R.drawable.baseline_person_24)
     .circleCrop()
     .transition(DrawableTransitionOptions.withCrossFade())
     .into(imageView)
