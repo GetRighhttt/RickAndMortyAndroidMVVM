@@ -27,10 +27,12 @@ class RMPagingSource(
                 prevKey = if (currentPage == 1) null else -1,
                 nextKey = if (results.isEmpty()) null else currentPage.plus(1)
             )
-        } catch (e: IOException) { // no internet connection, etc.
+        } catch (e: IOException) {
             LoadResult.Error(e)
-        } catch (e: HttpException) { // http status code exception
+        } catch (e: HttpException) {
             LoadResult.Error(e)
+        } finally {
+            println("Loading pages complete.")
         }
     }
 
