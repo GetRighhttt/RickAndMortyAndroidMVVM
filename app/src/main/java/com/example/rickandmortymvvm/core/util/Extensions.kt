@@ -20,9 +20,7 @@ inline infix fun Activity.setVisibilityOf(isLoading: () -> Boolean) =
 fun Context.setToast(text: String, length: Int) = Toast.makeText(this, text, length).show()
 
 val createSnackBar = { message: String, view: View ->
-    Snackbar.make(
-        view, message, Snackbar.LENGTH_SHORT
-    ).show()
+    Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
 }
 
 inline fun createSnackBarWithCoroutineAction(
@@ -30,9 +28,7 @@ inline fun createSnackBarWithCoroutineAction(
     view: View,
     crossinline action: () -> Job,
     actionText: String
-) = Snackbar.make(
-    view, message, Snackbar.LENGTH_SHORT
-)
+) = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
     .setAction(actionText) { action() }
     .show()
 
