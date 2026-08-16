@@ -2,20 +2,17 @@ package com.example.rickandmortymvvm.presentation.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.rickandmortymvvm.R
+import com.example.rickandmortymvvm.core.util.applySystemBarsPadding
 import com.example.rickandmortymvvm.core.util.createPositiveDialog
 import com.example.rickandmortymvvm.core.util.createSnackBar
 import com.example.rickandmortymvvm.core.util.setImage
@@ -44,13 +41,9 @@ class DetailsActivity : AppCompatActivity() {
         _binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(left = systemBars.left, right = systemBars.right)
-            binding.toolBarLayout.updatePadding(top = systemBars.top)
-            binding.detailsContent.updatePadding(bottom = systemBars.bottom)
-            insets
-        }
+        binding.root.applySystemBarsPadding(applyLeft = true, applyRight = true)
+        binding.toolBarLayout.applySystemBarsPadding(applyTop = true)
+        binding.detailsContent.applySystemBarsPadding(applyBottom = true)
 
         updateScreenState()
     }
@@ -162,8 +155,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun setNavigationIcon() = binding.apply {
         topUserAppBar.setNavigationOnClickListener {
-            val backIntent = Intent(this@DetailsActivity, RickAndMortyActivity::class.java)
-            startActivity(backIntent)
+            finish()
         }
     }
 
@@ -191,4 +183,3 @@ class DetailsActivity : AppCompatActivity() {
         const val EXTRA_DETAIL = "EXTRA_DETAIL"
     }
 }
-

@@ -6,13 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-import androidx.lifecycle.lifecycleScope
-import com.example.rickandmortymvvm.core.util.addDelay
+import com.example.rickandmortymvvm.core.util.applySystemBarsPadding
 import com.example.rickandmortymvvm.databinding.ActivityIntroBinding
-import kotlinx.coroutines.launch
 
 class IntroActivity : AppCompatActivity() {
     private var _binding: ActivityIntroBinding? = null
@@ -23,16 +18,12 @@ class IntroActivity : AppCompatActivity() {
         _binding = ActivityIntroBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
-            )
-            insets
-        }
+        binding.root.applySystemBarsPadding(
+            applyLeft = true,
+            applyTop = true,
+            applyRight = true,
+            applyBottom = true
+        )
 
         startAnimation()
     }

@@ -1,55 +1,64 @@
 package com.example.rickandmortymvvm.presentation.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
+import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.rickandmortymvvm.domain.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
+enum class CharacterGender(val apiValue: String) {
+    ALL(""),
+    MALE("male"),
+    FEMALE("female")
+}
+
+@Parcelize
+data class CharacterFilters(
+    val query: String = "",
+    val gender: CharacterGender = CharacterGender.ALL
+) : Parcelable
+
 @HiltViewModel
+@OptIn(ExperimentalCoroutinesApi::class)
 class RickAndMortyViewModel @Inject constructor(
     private val repository: Repository,
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val currentQuery = savedStateHandle.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
-    private val maleGenderData = MutableLiveData(DEFAULT_QUERY)
-    private val femaleGenderData = MutableLiveData(DEFAULT_QUERY)
+    val filters: StateFlow<CharacterFilters> =
+        savedStateHandle.getStateFlow(FILTERS_KEY, CharacterFilters())
 
-    val rickAndMortyResult = currentQuery.switchMap { queryString ->
-        repository.searchAllCharacters(queryString, "").cachedIn(viewModelScope)
-    }
-
-    val maleGenderResult = maleGenderData.switchMap {
-        repository.searchMaleCharacters("", "male").cachedIn(viewModelScope)
-    }
-
-    val femaleGenderResult = femaleGenderData.switchMap {
-        repository.searchFemaleCharacters("", "female").cachedIn(viewModelScope)
-    }
-
-    val searchCharacterJob: (String) -> Job =
-        { query: String ->
-            viewModelScope.launch {
-                try {
-                    currentQuery.value = query
-                } catch (e: HttpException) {
-                    Log.d("VIEW_MODEL", "${e.printStackTrace()} - Could not find characters!")
-                }
-            }
+    // A new filter cancels the previous Pager. Cache the resulting stream, not each filter branch.
+    val characters = filters
+        .flatMapLatest { filters ->
+            repository.searchCharacters(filters.query, filters.gender.apiValue)
         }
+        .cachedIn(viewModelScope)
+
+    fun searchCharacters(query: String) {
+        updateFilters { it.copy(query = query.trim()) }
+    }
+
+    fun filterByGender(gender: CharacterGender) {
+        updateFilters { it.copy(gender = gender) }
+    }
+
+    fun showAllCharacters() {
+        savedStateHandle[FILTERS_KEY] = CharacterFilters()
+    }
+
+    private fun updateFilters(transform: (CharacterFilters) -> CharacterFilters) {
+        savedStateHandle[FILTERS_KEY] = transform(filters.value)
+    }
 
     companion object {
-        private const val DEFAULT_QUERY = ""
-        private const val CURRENT_QUERY = "current_query"
+        private const val FILTERS_KEY = "character_filters"
     }
 }

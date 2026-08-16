@@ -1,34 +1,34 @@
 package com.example.rickandmortymvvm.presentation.view
 
-import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.net.toUri
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
-import com.example.rickandmortymvvm.core.util.createNegativeDialog
+import com.example.rickandmortymvvm.core.util.applySystemBarsPadding
 import com.example.rickandmortymvvm.core.util.createSnackBar
 import com.example.rickandmortymvvm.databinding.ActivityRickAndMortyBinding
+import com.example.rickandmortymvvm.domain.model.RickAndMorty
+import com.example.rickandmortymvvm.presentation.viewmodel.CharacterFilters
+import com.example.rickandmortymvvm.presentation.viewmodel.CharacterGender
 import com.example.rickandmortymvvm.presentation.viewmodel.RickAndMortyViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 
 @AndroidEntryPoint
@@ -46,13 +46,15 @@ class RickAndMortyActivity : AppCompatActivity() {
         _binding = ActivityRickAndMortyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.drawerLayout) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(left = systemBars.left, right = systemBars.right)
-            binding.topUserAppBar.updatePadding(top = systemBars.top)
-            binding.rvRmList.updatePadding(bottom = systemBars.bottom)
-            insets
-        }
+        binding.mainContent.applySystemBarsPadding(applyLeft = true, applyRight = true)
+        binding.toolBarLayout.applySystemBarsPadding(applyTop = true)
+        binding.rvRmList.applySystemBarsPadding(applyBottom = true)
+        binding.navView.applySystemBarsPadding(
+            applyLeft = true,
+            applyTop = true,
+            applyRight = true,
+            applyBottom = true
+        )
 
         binding.apply {
             toggle = ActionBarDrawerToggle(
@@ -75,9 +77,7 @@ class RickAndMortyActivity : AppCompatActivity() {
     private fun updateScreenState() {
         initRecyclerViewAndLoadStateAdapter()
         setupSearchView()
-        collectRickAndMortyResults()
-        addLoadStateListener()
-        onSwipeBackPressed()
+        observeScreenState()
     }
 
     private fun setNavigationDrawer() = binding.apply {
@@ -158,28 +158,20 @@ class RickAndMortyActivity : AppCompatActivity() {
                 R.id.nav_male -> {
                     rvRmList.smoothScrollToPosition(0)
                     rmSearchView.clearFocus()
-                    collectMaleData()
-                    topUserAppBar.title = "Males"
+                    viewModel.filterByGender(CharacterGender.MALE)
                     drawerLayout.close()
                 }
 
                 R.id.nav_female -> {
                     rvRmList.smoothScrollToPosition(0)
                     rmSearchView.clearFocus()
-                    collectFemaleData()
-                    topUserAppBar.title = "Females"
+                    viewModel.filterByGender(CharacterGender.FEMALE)
                     drawerLayout.close()
                 }
 
                 R.id.nav_home -> {
-                    val rickAndMortyList = listOf("abcdefgirls", "mnopfesdf")
                     rvRmList.smoothScrollToPosition(0)
-                    viewModel.searchCharacterJob(
-                        rickAndMortyList.subList(0, 1).random().first().toString()
-                    )
-                    // sets name of Home screen to user name entered in Login Activity
-                    topUserAppBar.title =
-                        "${getSharedPrefsData()}'s Home Page"
+                    viewModel.showAllCharacters()
                     createSnackBar("Going Home", binding.root)
                     drawerLayout.close()
                 }
@@ -201,103 +193,18 @@ class RickAndMortyActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun collectRickAndMortyResults() = lifecycleScope.launch {
-        binding.apply {
-            viewModel.rickAndMortyResult.observe(this@RickAndMortyActivity) {
-                try {
-                    rmAdapter.notifyDataSetChanged()
-                    rmAdapter.submitData(lifecycle, it)
-
-                    rmAdapter.setOnItemClickListener {
-                        val detailIntent =
-                            Intent(
-                                this@RickAndMortyActivity,
-                                DetailsActivity::class.java
-                            )
-                        Bundle().apply {
-                            detailIntent.putExtra(EXTRA_MAIN, it)
-                        }
-                        startActivity(detailIntent)
-                        finish()
-                    }
-
-                    pbRm.visibility = View.GONE
-                } catch (e: HttpException) {
-                    createNegativeDialog(
-                        "Error!",
-                        "Error retrieving data! ${e.printStackTrace()}",
-                        "Cancel"
-                    )
-                    pbRm.visibility = View.GONE
+    private fun observeScreenState() = lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
+            launch {
+                viewModel.characters.collectLatest { pagingData ->
+                    rmAdapter.submitData(pagingData)
                 }
             }
-        }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun collectMaleData() = lifecycleScope.launch {
-        binding.apply {
-            viewModel.maleGenderResult.observe(this@RickAndMortyActivity) {
-                try {
-                    rmAdapter.notifyDataSetChanged()
-                    rmAdapter.submitData(lifecycle, it)
-
-                    rmAdapter.setOnItemClickListener {
-                        val detailIntent =
-                            Intent(
-                                this@RickAndMortyActivity,
-                                DetailsActivity::class.java
-                            )
-                        Bundle().apply {
-                            detailIntent.putExtra(EXTRA_MAIN, it)
-                        }
-                        startActivity(detailIntent)
-                        finish()
-                    }
-
-                    pbRm.visibility = View.GONE
-                } catch (e: HttpException) {
-                    createNegativeDialog(
-                        "Error!",
-                        "Error retrieving data! ${e.printStackTrace()}",
-                        "Cancel"
-                    )
-                    pbRm.visibility = View.GONE
-                }
+            launch {
+                rmAdapter.loadStateFlow.collectLatest(::renderLoadState)
             }
-        }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun collectFemaleData() = lifecycleScope.launch {
-        binding.apply {
-            viewModel.femaleGenderResult.observe(this@RickAndMortyActivity) {
-                try {
-                    rmAdapter.notifyDataSetChanged()
-                    rmAdapter.submitData(lifecycle, it)
-                    rmAdapter.setOnItemClickListener {
-                        val detailIntent =
-                            Intent(
-                                this@RickAndMortyActivity,
-                                DetailsActivity::class.java
-                            )
-                        Bundle().apply {
-                            detailIntent.putExtra(EXTRA_MAIN, it)
-                        }
-                        startActivity(detailIntent)
-                        finish()
-                    }
-
-                    pbRm.visibility = View.GONE
-                } catch (e: HttpException) {
-                    createNegativeDialog(
-                        "Error!",
-                        "Error retrieving data! ${e.printStackTrace()}",
-                        "Cancel"
-                    )
-                    pbRm.visibility = View.GONE
-                }
+            launch {
+                viewModel.filters.collectLatest(::renderFilters)
             }
         }
     }
@@ -313,17 +220,10 @@ class RickAndMortyActivity : AppCompatActivity() {
                 2,
                 GridLayoutManager.VERTICAL
             )
-            hasFixedSize()
+            setHasFixedSize(true)
         }
-    }
-
-    private fun addLoadStateListener() {
-        rmAdapter.addLoadStateListener { loadState ->
-            binding.apply {
-                pbRm.isVisible = loadState.source.refresh is LoadState.Loading
-                rvRmList.isVisible = loadState.source.refresh is LoadState.NotLoading
-            }
-        }
+        rmAdapter.setOnItemClickListener(::openDetails)
+        binding.refreshRetry.setOnClickListener { rmAdapter.retry() }
     }
 
     private fun setupSearchView() = binding.rmSearchView.apply {
@@ -332,7 +232,7 @@ class RickAndMortyActivity : AppCompatActivity() {
 
                 if (query != null) {
                     binding.rvRmList.smoothScrollToPosition(0)
-                    viewModel.searchCharacterJob(query)
+                    viewModel.searchCharacters(query)
                     clearFocus()
                 }
                 return true
@@ -344,15 +244,41 @@ class RickAndMortyActivity : AppCompatActivity() {
         })
     }
 
-    private fun onSwipeBackPressed() = onBackPressedDispatcher.addCallback(
-        this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val backIntent = Intent(this@RickAndMortyActivity, RickAndMortyActivity::class.java)
-                startActivity(backIntent)
-                finish()
-            }
+    private fun renderLoadState(loadStates: CombinedLoadStates) = binding.apply {
+        val refresh = loadStates.refresh
+        val hasItems = rmAdapter.itemCount > 0
+        val showEmptyState = refresh is LoadState.NotLoading &&
+                loadStates.append.endOfPaginationReached && !hasItems
+        val showErrorState = refresh is LoadState.Error
+
+        pbRm.isVisible = refresh is LoadState.Loading
+        rvRmList.isVisible = hasItems && !showErrorState
+        refreshState.isVisible = showEmptyState || showErrorState
+        refreshRetry.isVisible = showErrorState
+
+        refreshMessage.setText(
+            if (showErrorState) R.string.characters_failed_to_load
+            else R.string.no_characters_found
+        )
+    }
+
+    private fun renderFilters(filters: CharacterFilters) = binding.apply {
+        if (rmSearchView.query.toString() != filters.query) {
+            rmSearchView.setQuery(filters.query, false)
         }
-    )
+
+        topUserAppBar.title = when (filters.gender) {
+            CharacterGender.MALE -> getString(R.string.male)
+            CharacterGender.FEMALE -> getString(R.string.female)
+            CharacterGender.ALL -> "${getSharedPrefsData()}'s Home Page"
+        }
+    }
+
+    private fun openDetails(character: RickAndMorty) {
+        val detailIntent = Intent(this, DetailsActivity::class.java)
+            .putExtra(EXTRA_MAIN, character)
+        startActivity(detailIntent)
+    }
 
     override fun onDestroy() {
         super.onDestroy()

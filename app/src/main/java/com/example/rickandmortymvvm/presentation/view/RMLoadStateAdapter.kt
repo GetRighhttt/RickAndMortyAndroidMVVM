@@ -28,8 +28,8 @@ class RMLoadStateAdapter(private val retry: () -> Unit) :
         fun bind(loadState: LoadState) {
             binding.apply {
                 progressbar.isVisible = loadState is LoadState.Loading
-                btnRetry.isVisible = loadState !is LoadState.Loading
-                tvViewError.isVisible = loadState !is LoadState.Loading
+                btnRetry.isVisible = loadState is LoadState.Error
+                tvViewError.isVisible = loadState is LoadState.Error
             }
         }
     }

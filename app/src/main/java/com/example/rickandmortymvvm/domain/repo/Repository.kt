@@ -2,7 +2,6 @@ package com.example.rickandmortymvvm.domain.repo
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.liveData
 import com.example.rickandmortymvvm.core.util.Constants
 import com.example.rickandmortymvvm.data.api.RMPagingSource
 import com.example.rickandmortymvvm.data.api.RickAndMortyApiService
@@ -19,33 +18,16 @@ class Repository @Inject constructor(
     private val rickAndMortyApiService: RickAndMortyApiService,
     private val characterDAO: CharacterDAO
 ) {
-    fun searchAllCharacters(query: String, gender: String) =
+    fun searchCharacters(query: String, gender: String) =
         Pager(
             config = PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
+                initialLoadSize = Constants.PAGE_SIZE,
                 maxSize = 100,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
-        ).liveData
-
-    fun searchMaleCharacters(query: String, gender: String = "male") = Pager(
-        config = PagingConfig(
-            pageSize = Constants.PAGE_SIZE,
-            maxSize = 100,
-            enablePlaceholders = false
-        ),
-        pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
-    ).liveData
-
-    fun searchFemaleCharacters(query: String, gender: String = "female") = Pager(
-        config = PagingConfig(
-            pageSize = Constants.PAGE_SIZE,
-            maxSize = 100,
-            enablePlaceholders = false
-        ),
-        pagingSourceFactory = { RMPagingSource(rickAndMortyApiService, query, gender) }
-    ).liveData
+        ).flow
 
     suspend fun executeAddCharacter(character: RickAndMorty) =
         withContext(Dispatchers.IO) { characterDAO.insert(character) }
@@ -57,5 +39,4 @@ class Repository @Inject constructor(
 
     suspend fun executeDeleteCharacter(character: RickAndMorty) = withContext(Dispatchers.IO)
     { characterDAO.deleteCharacter(character) }
-
 }

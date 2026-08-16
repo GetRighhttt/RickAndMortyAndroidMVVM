@@ -12,34 +12,41 @@ class RMPagingSource(
     private val query: String,
     private val gender: String
 ) : PagingSource<Int, RickAndMorty>() {
-    override suspend fun load(params: LoadParams<Int>):
-            LoadResult<Int, RickAndMorty> {
-
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RickAndMorty> {
         return try {
             val currentPage = params.key ?: Constants.STARTING_PAGE_INDEX
             val response = apiService.searchAllCharacters(query, currentPage, gender)
-            val responseData = mutableListOf<RickAndMorty>()
-            val results = response.body()?.results ?: emptyList()
-            responseData.addAll(results)
+
+            // This API uses 404 to represent a filter with no matching characters.
+            if (response.code() == HTTP_NOT_FOUND) {
+                return LoadResult.Page(data = emptyList(), prevKey = null, nextKey = null)
+            }
+            if (!response.isSuccessful) {
+                return LoadResult.Error(HttpException(response))
+            }
+
+            val body = response.body()
+                ?: return LoadResult.Error(IllegalStateException("Character response body was empty"))
 
             LoadResult.Page(
-                data = responseData,
-                prevKey = if (currentPage == 1) null else -1,
-                nextKey = if (results.isEmpty()) null else currentPage.plus(1)
+                data = body.results,
+                prevKey = body.info.prev?.let { currentPage - 1 },
+                nextKey = body.info.next?.let { currentPage + 1 }
             )
         } catch (e: IOException) {
             LoadResult.Error(e)
         } catch (e: HttpException) {
             LoadResult.Error(e)
-        } finally {
-            println("Loading pages complete.")
         }
     }
 
     override fun getRefreshKey(state: PagingState<Int, RickAndMorty>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
-        }
+        val anchorPosition = state.anchorPosition ?: return null
+        val anchorPage = state.closestPageToPosition(anchorPosition) ?: return null
+        return anchorPage.prevKey?.plus(1) ?: anchorPage.nextKey?.minus(1)
+    }
+
+    private companion object {
+        const val HTTP_NOT_FOUND = 404
     }
 }

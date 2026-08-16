@@ -9,6 +9,8 @@
     <string name="status">STATUS</string>
     <string name="url">URL</string>
     <string name="results_failed_to_load">Results failed to load…</string>
+    <string name="characters_failed_to_load">Unable to load characters.</string>
+    <string name="no_characters_found">No characters found.</string>
     <string name="retry">Retry</string>
     <string name="delete">Delete</string>
     <string name="add">Add</string>

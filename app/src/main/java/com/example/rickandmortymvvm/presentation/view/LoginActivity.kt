@@ -14,9 +14,7 @@ import com.example.rickandmortymvvm.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import androidx.core.content.edit
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
+import com.example.rickandmortymvvm.core.util.applySystemBarsPadding
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -29,16 +27,13 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.linearLogin) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
-            )
-            insets
-        }
+        binding.linearLogin.applySystemBarsPadding(
+            applyLeft = true,
+            applyTop = true,
+            applyRight = true,
+            applyBottom = true,
+            applyIme = true
+        )
         updateScreenState()
     }
 
