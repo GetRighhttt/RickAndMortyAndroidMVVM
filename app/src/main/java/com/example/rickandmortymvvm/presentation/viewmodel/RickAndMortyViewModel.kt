@@ -36,11 +36,9 @@ class RickAndMortyViewModel @Inject constructor(
         savedStateHandle.getStateFlow(FILTERS_KEY, CharacterFilters())
 
     // A new filter cancels the previous Pager. Cache the resulting stream, not each filter branch.
-    val characters = filters
-        .flatMapLatest { filters ->
-            repository.searchCharacters(filters.query, filters.gender.apiValue)
-        }
-        .cachedIn(viewModelScope)
+    val characters = filters.flatMapLatest { filters ->
+        repository.searchCharacters(filters.query, filters.gender.apiValue)
+    }.cachedIn(viewModelScope)
 
     fun searchCharacters(query: String) = updateFilters { it.copy(query = query.trim()) }
     fun filterByGender(gender: CharacterGender) = updateFilters { it.copy(gender = gender) }
