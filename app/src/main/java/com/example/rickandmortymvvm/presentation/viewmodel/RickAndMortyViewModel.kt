@@ -42,17 +42,9 @@ class RickAndMortyViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
-    fun searchCharacters(query: String) {
-        updateFilters { it.copy(query = query.trim()) }
-    }
-
-    fun filterByGender(gender: CharacterGender) {
-        updateFilters { it.copy(gender = gender) }
-    }
-
-    fun showAllCharacters() {
-        savedStateHandle[FILTERS_KEY] = CharacterFilters()
-    }
+    fun searchCharacters(query: String) = updateFilters { it.copy(query = query.trim()) }
+    fun filterByGender(gender: CharacterGender) = updateFilters { it.copy(gender = gender) }
+    fun showAllCharacters() { savedStateHandle[FILTERS_KEY] = CharacterFilters() }
 
     private fun updateFilters(transform: (CharacterFilters) -> CharacterFilters) {
         savedStateHandle[FILTERS_KEY] = transform(filters.value)

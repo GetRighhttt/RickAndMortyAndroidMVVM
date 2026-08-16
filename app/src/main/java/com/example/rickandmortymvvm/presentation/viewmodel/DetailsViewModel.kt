@@ -16,11 +16,9 @@ class DetailsViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    // Loading state
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    // operator invoke methods
     private operator fun MutableLiveData<Boolean>.invoke(state: Boolean) =
         _isLoading.postValue(state)
 
@@ -28,7 +26,6 @@ class DetailsViewModel @Inject constructor(
         repository.executeAddCharacter(character)
 
     init {
-        // fault tolerance
         _isLoading(false)
     }
 

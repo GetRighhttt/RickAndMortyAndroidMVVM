@@ -131,7 +131,6 @@ class RickAndMortyActivity : AppCompatActivity() {
                     rvRmList.smoothScrollToPosition(0)
                     rmSearchView.clearFocus()
 
-                    // go to youtube
                     val youtubeString =
                         "https://www.youtube.com/results?search_query=rick+and+morty"
                     val intent = Intent(Intent.ACTION_VIEW).apply {
