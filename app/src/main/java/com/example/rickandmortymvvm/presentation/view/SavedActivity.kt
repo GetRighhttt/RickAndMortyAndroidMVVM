@@ -2,21 +2,17 @@ package com.example.rickandmortymvvm.presentation.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
+import com.example.rickandmortymvvm.core.util.applySystemBarsPadding
 import com.example.rickandmortymvvm.core.util.createPositiveDialog
 import com.example.rickandmortymvvm.core.util.createSnackBar
 import com.example.rickandmortymvvm.core.util.createSnackBarWithCoroutineAction
@@ -41,13 +37,9 @@ class SavedActivity : AppCompatActivity() {
         _binding = ActivitySavedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(left = systemBars.left, right = systemBars.right)
-            binding.toolBarLayout.updatePadding(top = systemBars.top)
-            binding.rvSavedCharacters.updatePadding(bottom = systemBars.bottom)
-            insets
-        }
+        binding.root.applySystemBarsPadding(applyLeft = true, applyRight = true)
+        binding.toolBarLayout.applySystemBarsPadding(applyTop = true)
+        binding.rvSavedCharacters.applySystemBarsPadding(applyBottom = true)
 
         binding.topUserAppBar.title =
             "${getSharedPrefsData(this@SavedActivity)}'s Saved Characters"
@@ -59,7 +51,6 @@ class SavedActivity : AppCompatActivity() {
         initRecyclerView()
         setNavigationIcon()
         onMenuItemSelected()
-        onSwipeBackPressed()
         createItemCallBack()
         observeLoadingState()
     }
@@ -148,19 +139,9 @@ class SavedActivity : AppCompatActivity() {
 
     private fun setNavigationIcon() = binding.apply {
         topUserAppBar.setNavigationOnClickListener {
-            val backIntent = Intent(this@SavedActivity, RickAndMortyActivity::class.java)
-            startActivity(backIntent)
+            finish()
         }
     }
-
-    private fun onSwipeBackPressed() = onBackPressedDispatcher.addCallback(
-        this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val backIntent = Intent(this@SavedActivity, RickAndMortyActivity::class.java)
-                startActivity(backIntent)
-            }
-        }
-    )
 
     private fun createItemCallBack() {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
