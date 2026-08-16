@@ -19,44 +19,38 @@ class SavedViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    // Collecting flow data in LiveData variable
     private val _currentState = MutableLiveData<List<RickAndMorty>>()
     val currentState: LiveData<List<RickAndMorty>> get() = _currentState
 
-    // Loading state
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    // operator methods
     private operator fun MutableLiveData<Boolean>.invoke(state: Boolean?) =
         _isLoading.postValue(state)
 
-    // init block to get all saved characters before initiating any other actions
     init {
         getAllSavedCharacters()
     }
 
-    fun addCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
+    fun addCharacter(character: RickAndMorty) = viewModelScope.launch {
         _isLoading(true)
         addDelay { 1000 }
         repository.executeAddCharacter(character)
         _isLoading(false)
     }
 
-    fun deleteCharacter(character: RickAndMorty) = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteCharacter(character: RickAndMorty) = viewModelScope.launch {
         _isLoading(true)
         addDelay { 1000 }
         repository.executeDeleteCharacter(character)
         _isLoading(false)
     }
 
-    val deleteAllCharacters: () -> Job = {
-        viewModelScope.launch(Dispatchers.IO) {
-            _isLoading(true)
-            addDelay { 1000 }
-            repository.executeDeleteAllCharacters()
-            _isLoading(false)
-        }
+    fun deleteAllCharacters() = viewModelScope.launch {
+        _isLoading(true)
+        addDelay { 1000 }
+        repository.executeDeleteAllCharacters()
+        _isLoading(false)
     }
 
     /*
