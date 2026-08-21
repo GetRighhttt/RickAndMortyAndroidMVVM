@@ -19,8 +19,8 @@
     <string name="share">Share Information</string>
     <string name="character_list">Character List</string>
     <string name="home">Home</string>
-    <string name="male">Males</string>
-    <string name="female">Females</string>
+    <string name="male">Male Species</string>
+    <string name="female">Female Species</string>
     <string name="like">Like</string>
     <string name="profile">Profile</string>
     <string name="person">Person</string>
