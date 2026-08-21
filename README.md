@@ -12,9 +12,9 @@ It remains intentionally small and View-based, making it useful as a reference w
 
 ## Screenshots
 
-| Character browser | Character details |
-| --- | --- |
-| <img src="docs/screenshots/character-browser.png" width="360" alt="Portal Explorer character browser in dark mode" /> | <img src="docs/screenshots/character-details.png" width="360" alt="Redesigned Rick and Morty character detail screen in dark mode" /> |
+| Welcome screen | Character browser | Character details |
+| --- | --- | --- |
+| <img src="docs/screenshots/login.png" width="280" alt="Redesigned Rick and Morty welcome screen in dark mode" /> | <img src="docs/screenshots/character-browser.png" width="280" alt="Portal Explorer character browser in dark mode" /> | <img src="docs/screenshots/character-details.png" width="280" alt="Redesigned Rick and Morty character detail screen in dark mode" /> |
 
 ## Features
 
