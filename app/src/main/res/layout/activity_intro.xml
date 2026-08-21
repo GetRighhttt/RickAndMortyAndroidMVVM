@@ -20,6 +20,7 @@
         android:id="@+id/intro_card"
         android:layout_width="260dp"
         android:layout_height="210dp"
+        android:alpha="0"
         app:cardCornerRadius="32dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="@id/portal_glow"

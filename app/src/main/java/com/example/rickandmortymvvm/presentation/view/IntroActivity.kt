@@ -35,7 +35,13 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun showStaticIntro() {
-        splashHandler.postDelayed(navigateToLogin, STATIC_SPLASH_DELAY_MS)
+        binding.introCard.animate()
+            .alpha(1f)
+            .setDuration(ICON_FADE_IN_MS)
+            .withEndAction {
+                splashHandler.postDelayed(navigateToLogin, STATIC_SPLASH_DELAY_MS)
+            }
+            .start()
     }
 
     override fun onDestroy() {
@@ -45,6 +51,7 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private companion object {
-        const val STATIC_SPLASH_DELAY_MS = 2500L
+        const val ICON_FADE_IN_MS = 1000L
+        const val STATIC_SPLASH_DELAY_MS = 750L
     }
 }
