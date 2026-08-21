@@ -1,6 +1,5 @@
 package com.example.rickandmortymvvm.presentation.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -8,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.core.util.addDelay
 import com.example.rickandmortymvvm.core.util.setToast
 import com.example.rickandmortymvvm.databinding.ActivityLoginBinding
@@ -37,15 +37,15 @@ class LoginActivity : AppCompatActivity() {
         updateScreenState()
     }
 
-    @SuppressLint("SetTextI18n")
     val loadData: () -> Unit = {
         val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
         val savedData = sharedPreferences.getString(LOGIN, null)
 
         binding.apply {
-            if ((savedData?.isEmpty() == true) || (savedData?.isBlank() == true)) loadName.visibility =
-                View.GONE else View.VISIBLE
-            loadName.text = "Hello ${savedData.toString()}!"
+            loadName.visibility = if (savedData.isNullOrBlank()) View.GONE else View.VISIBLE
+            if (!savedData.isNullOrBlank()) {
+                loadName.text = getString(R.string.welcome_back, savedData)
+            }
         }
     }
 

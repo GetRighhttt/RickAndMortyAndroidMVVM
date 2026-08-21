@@ -2,12 +2,19 @@
 
 An Android pet project for browsing, searching, filtering, and saving characters from the [Rick and Morty API](https://rickandmortyapi.com/).
 
-This repository started as an early MVVM learning project and has since been refreshed in two focused areas:
+This repository started as an early MVVM learning project and has since been refreshed in three focused areas:
 
 - A production-shaped Paging 3 data flow with one filter state, one paging stream, lifecycle-aware collection, explicit load states, and tested page keys.
 - Consistent edge-to-edge layouts with explicit status bar, navigation bar, display cutout, and keyboard inset handling.
+- A cohesive Material 3 redesign with a portal-inspired day/night palette, aligned character cards, clearer screen hierarchy, and polished empty and loading states.
 
 It remains intentionally small and View-based, making it useful as a reference when migrating an older Android application without also introducing Compose or a broad build-system upgrade.
+
+## Screenshots
+
+| Character browser | Character details |
+| --- | --- |
+| <img src="docs/screenshots/character-browser.png" width="360" alt="Portal Explorer character browser in dark mode" /> | <img src="docs/screenshots/character-details.png" width="360" alt="Redesigned Rick and Morty character detail screen in dark mode" /> |
 
 ## Features
 

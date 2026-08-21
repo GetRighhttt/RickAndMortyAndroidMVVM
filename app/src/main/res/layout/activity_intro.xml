@@ -1,28 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.view.IntroActivity">
+    android:background="@color/portal_background">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="220dp"
-        android:layout_height="160dp"
-        android:layout_margin="5dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="40dp"
+    <View
+        android:id="@+id/portal_glow"
+        android:layout_width="340dp"
+        android:layout_height="340dp"
+        android:background="@drawable/bg_portal_glow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.34" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/intro_card"
+        android:layout_width="260dp"
+        android:layout_height="210dp"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/portal_glow"
+        app:layout_constraintEnd_toEndOf="@id/portal_glow"
+        app:layout_constraintStart_toStartOf="@id/portal_glow"
+        app:layout_constraintTop_toTopOf="@id/portal_glow">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_rm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/intro_title"
             android:scaleType="centerCrop"
             android:src="@drawable/rick_and_morty" />
-    </androidx.cardview.widget.CardView>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/intro_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:text="@string/intro_title"
+        android:textColor="@color/portal_on_surface"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/portal_glow" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/intro_subtitle"
+        android:textColor="@color/portal_on_surface_variant"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/intro_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

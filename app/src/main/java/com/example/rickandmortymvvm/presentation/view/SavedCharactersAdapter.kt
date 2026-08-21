@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.core.util.setImage
+import com.example.rickandmortymvvm.core.util.toDisplayLabel
 import com.example.rickandmortymvvm.databinding.RmListItemBinding
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
 
@@ -48,6 +49,16 @@ class SavedCharactersAdapter(
         fun bind(rmUser: RickAndMorty) {
             binding.apply {
                 rmFullName.text = rmUser.name
+                rmStatus.text = rmUser.status.toDisplayLabel()
+                rmSpecies.text = context.getString(
+                    R.string.character_summary,
+                    rmUser.species,
+                    rmUser.gender
+                )
+                rmImage.contentDescription = context.getString(
+                    R.string.character_image_description,
+                    rmUser.name
+                )
 
                 // use Glide extension function to read in image
                 rmImage.setImage(rmUser.image, rmImage)

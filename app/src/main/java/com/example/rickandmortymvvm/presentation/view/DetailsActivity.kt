@@ -9,14 +9,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.core.util.applySystemBarsPadding
 import com.example.rickandmortymvvm.core.util.createPositiveDialog
 import com.example.rickandmortymvvm.core.util.createSnackBar
 import com.example.rickandmortymvvm.core.util.setImage
 import com.example.rickandmortymvvm.core.util.setVisibilityOf
+import com.example.rickandmortymvvm.core.util.toDisplayLabel
 import com.example.rickandmortymvvm.databinding.ActivityDetailsBinding
 import com.example.rickandmortymvvm.domain.model.RickAndMorty
 import com.example.rickandmortymvvm.presentation.viewmodel.DetailsViewModel
@@ -79,9 +78,9 @@ class DetailsActivity : AppCompatActivity() {
                     // set image with Glide extension method
                     ivImage.setImage(rmDetails.image, ivImage)
                     tvName.text = it.name
-                    tvGender.text = "| ${it.gender}"
+                    tvGender.text = it.gender
                     tvSpecies.text = it.species
-                    tvStatus.text = it.status
+                    tvStatus.text = it.status.toDisplayLabel()
                     tvCreated.text = it.created.dropLast(14)
                     pbLoading.visibility = View.GONE
 
@@ -99,18 +98,12 @@ class DetailsActivity : AppCompatActivity() {
 
                 rmDetails?.let {
 
-                    // scale and transform image to our needs using Glide.
-                    Glide.with(ivImage.context)
-                        .load(rmDetails.image)
-                        .placeholder(R.drawable.baseline_person_24)
-                        .circleCrop()
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .into(ivImage)
+                    ivImage.setImage(rmDetails.image, ivImage)
 
                     tvName.text = it.name
-                    tvGender.text = "| ${it.gender}"
+                    tvGender.text = it.gender
                     tvSpecies.text = it.species
-                    tvStatus.text = it.status
+                    tvStatus.text = it.status.toDisplayLabel()
                     tvCreated.text = it.created.dropLast(14)
                     pbLoading.visibility = View.GONE
 

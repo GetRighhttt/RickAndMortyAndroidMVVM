@@ -2,4 +2,22 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="portal_primary">#426D28</color>
+    <color name="portal_on_primary">#FFFFFFFF</color>
+    <color name="portal_primary_container">#C4F6A2</color>
+    <color name="portal_on_primary_container">#102005</color>
+    <color name="portal_secondary">#176B75</color>
+    <color name="portal_on_secondary">#FFFFFFFF</color>
+    <color name="portal_secondary_container">#A5EFF7</color>
+    <color name="portal_on_secondary_container">#002023</color>
+    <color name="portal_background">#F6F8F2</color>
+    <color name="portal_surface">#FFFFFFFF</color>
+    <color name="portal_surface_variant">#E7EEE3</color>
+    <color name="portal_on_surface">#182016</color>
+    <color name="portal_on_surface_variant">#586154</color>
+    <color name="portal_outline">#C9D4C5</color>
+    <color name="portal_scrim">#9907110B</color>
+    <color name="portal_alive">#3F7E2A</color>
+    <color name="portal_error">#BA1A1A</color>
 </resources>

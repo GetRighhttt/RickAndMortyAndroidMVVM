@@ -48,6 +48,10 @@ fun Context.createNegativeDialog(title: String, message: String, buttonText: Str
 
 suspend inline infix fun CoroutineScope.addDelay(timeUnit: () -> Long) = delay(timeUnit().milliseconds)
 
+fun String.toDisplayLabel(): String = replaceFirstChar { character ->
+    if (character.isLowerCase()) character.titlecase() else character.toString()
+}
+
 private data class InitialPadding(
     val left: Int,
     val top: Int,
@@ -88,6 +92,6 @@ fun ImageView.setImage(
 ) = Glide.with(this)
     .load(uri)
     .placeholder(R.drawable.baseline_person_24)
-    .circleCrop()
+    .centerCrop()
     .transition(DrawableTransitionOptions.withCrossFade())
     .into(imageView)

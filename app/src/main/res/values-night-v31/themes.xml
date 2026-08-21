@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools" tools:targetApi="29">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:targetApi="31">
     <style name="Base.Theme.RickAndMortyMVVM" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/portal_primary</item>
         <item name="colorOnPrimary">@color/portal_on_primary</item>
@@ -17,28 +17,14 @@
         <item name="android:colorAccent">@color/portal_primary</item>
         <item name="android:colorBackground">@color/portal_background</item>
         <item name="android:windowBackground">@color/portal_background</item>
+        <item name="android:windowSplashScreenBackground">@color/portal_background</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/portal_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:fontFamily">sans</item>
-    </style>
-
-    <style name="Theme.RickAndMortyMVVM" parent="Base.Theme.RickAndMortyMVVM" />
-
-    <style name="Widget.RickAndMorty.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:background">@color/portal_background</item>
-        <item name="titleTextColor">@color/portal_on_surface</item>
-        <item name="subtitleTextColor">@color/portal_on_surface_variant</item>
-        <item name="navigationIconTint">@color/portal_on_surface</item>
-    </style>
-
-    <style name="Widget.RickAndMorty.PrimaryButton" parent="Widget.Material3.Button">
-        <item name="android:minHeight">56dp</item>
-        <item name="cornerRadius">18dp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textStyle">bold</item>
     </style>
 </resources>

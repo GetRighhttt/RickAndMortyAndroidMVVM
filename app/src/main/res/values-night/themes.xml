@@ -1,7 +1,28 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:targetApi="29">
     <style name="Base.Theme.RickAndMortyMVVM" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/portal_primary</item>
+        <item name="colorOnPrimary">@color/portal_on_primary</item>
+        <item name="colorPrimaryContainer">@color/portal_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/portal_on_primary_container</item>
+        <item name="colorSecondary">@color/portal_secondary</item>
+        <item name="colorOnSecondary">@color/portal_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/portal_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/portal_on_secondary_container</item>
+        <item name="colorSurface">@color/portal_surface</item>
+        <item name="colorOnSurface">@color/portal_on_surface</item>
+        <item name="colorSurfaceVariant">@color/portal_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/portal_on_surface_variant</item>
+        <item name="colorOutline">@color/portal_outline</item>
+        <item name="colorError">@color/portal_error</item>
+        <item name="android:colorAccent">@color/portal_primary</item>
+        <item name="android:colorBackground">@color/portal_background</item>
+        <item name="android:windowBackground">@color/portal_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:fontFamily">sans</item>
     </style>
 </resources>

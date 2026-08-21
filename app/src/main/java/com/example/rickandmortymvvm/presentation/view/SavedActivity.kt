@@ -1,16 +1,14 @@
 package com.example.rickandmortymvvm.presentation.view
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.core.util.applySystemBarsPadding
 import com.example.rickandmortymvvm.core.util.createPositiveDialog
@@ -41,14 +39,15 @@ class SavedActivity : AppCompatActivity() {
         binding.toolBarLayout.applySystemBarsPadding(applyTop = true)
         binding.rvSavedCharacters.applySystemBarsPadding(applyBottom = true)
 
-        binding.topUserAppBar.title =
-            "${getSharedPrefsData(this@SavedActivity)}'s Saved Characters"
+        getSharedPrefsData()?.takeIf { it.isNotBlank() }?.let { name ->
+            binding.topUserAppBar.title = "$name's collection"
+        }
         updateScreenState()
     }
 
     private fun updateScreenState() {
-        observeLiveData()
         initRecyclerView()
+        observeLiveData()
         setNavigationIcon()
         onMenuItemSelected()
         createItemCallBack()
@@ -56,7 +55,7 @@ class SavedActivity : AppCompatActivity() {
     }
 
     // Using shared preferences from Login activity to populate Home page
-    private fun getSharedPrefsData(context: Context?): String? {
+    private fun getSharedPrefsData(): String? {
         val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
         return sharedPreferences.getString(LoginActivity.LOGIN, null)
     }
@@ -65,11 +64,11 @@ class SavedActivity : AppCompatActivity() {
         binding.pbSaved.visibility = this setVisibilityOf { isLoading }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun observeLiveData() {
         viewModel.currentState.observe(this) { character ->
-            scAdapter.notifyDataSetChanged()
             scAdapter.differ.submitList(character)
+            binding.savedEmptyState.isVisible = character.isEmpty()
+            binding.rvSavedCharacters.isVisible = character.isNotEmpty()
 
             // onclick listener for when the user is clicked
             scAdapter.setOnItemClickListener {
@@ -89,11 +88,8 @@ class SavedActivity : AppCompatActivity() {
         binding.rvSavedCharacters.apply {
             scAdapter = SavedCharactersAdapter(this@SavedActivity)
             adapter = scAdapter
-            layoutManager = StaggeredGridLayoutManager(
-                2,
-                GridLayoutManager.VERTICAL
-            )
-            hasFixedSize()
+            layoutManager = GridLayoutManager(this@SavedActivity, 2)
+            setHasFixedSize(true)
         }
     }
 
@@ -110,7 +106,7 @@ class SavedActivity : AppCompatActivity() {
                                 .setTitle("Delete All Characters?")
                                 .setMessage("Are you sure you want to delete all characters from your database?")
                                 .setNeutralButton("Cancel") { dialog, _ -> dialog.cancel() }
-                                .setNegativeButton("No") { dialog, _ ->
+                                .setNegativeButton("No") { _, _ ->
                                     createSnackBar(
                                         "Characters not deleted as requested by user.",
                                         binding.root
@@ -158,7 +154,8 @@ class SavedActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-                val position = viewHolder.adapterPosition
+                val position = viewHolder.bindingAdapterPosition
+                if (position == RecyclerView.NO_POSITION) return
                 val character = scAdapter.differ.currentList[position]
                 viewModel.deleteCharacter(character)
                 createSnackBarWithCoroutineAction(

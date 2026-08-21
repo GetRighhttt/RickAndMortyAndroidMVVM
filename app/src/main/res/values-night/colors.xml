@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="portal_primary">#A5E77D</color>
+    <color name="portal_on_primary">#173807</color>
+    <color name="portal_primary_container">#2D5218</color>
+    <color name="portal_on_primary_container">#C4F6A2</color>
+    <color name="portal_secondary">#84D2DC</color>
+    <color name="portal_on_secondary">#00363C</color>
+    <color name="portal_secondary_container">#004F57</color>
+    <color name="portal_on_secondary_container">#A5EFF7</color>
+    <color name="portal_background">#0C1411</color>
+    <color name="portal_surface">#121D18</color>
+    <color name="portal_surface_variant">#1D2A23</color>
+    <color name="portal_on_surface">#E8F0E6</color>
+    <color name="portal_on_surface_variant">#B7C6B8</color>
+    <color name="portal_outline">#3C4C40</color>
+    <color name="portal_scrim">#CC030705</color>
+    <color name="portal_alive">#A5E77D</color>
+    <color name="portal_error">#FFB4AB</color>
+</resources>

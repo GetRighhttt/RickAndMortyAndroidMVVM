@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools" tools:targetApi="29">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:targetApi="31">
     <style name="Base.Theme.RickAndMortyMVVM" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/portal_primary</item>
         <item name="colorOnPrimary">@color/portal_on_primary</item>
@@ -17,6 +17,8 @@
         <item name="android:colorAccent">@color/portal_primary</item>
         <item name="android:colorBackground">@color/portal_background</item>
         <item name="android:windowBackground">@color/portal_background</item>
+        <item name="android:windowSplashScreenBackground">@color/portal_background</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/portal_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>

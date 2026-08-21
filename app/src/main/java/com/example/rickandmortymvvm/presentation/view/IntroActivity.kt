@@ -12,6 +12,12 @@ import com.example.rickandmortymvvm.databinding.ActivityIntroBinding
 class IntroActivity : AppCompatActivity() {
     private var _binding: ActivityIntroBinding? = null
     private val binding get() = _binding!!
+    private val splashHandler = Handler(Looper.getMainLooper())
+    private val navigateToLogin = Runnable {
+        startActivity(Intent(this@IntroActivity, LoginActivity::class.java))
+        finish()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -25,33 +31,20 @@ class IntroActivity : AppCompatActivity() {
             applyBottom = true
         )
 
-        startAnimation()
+        showStaticIntro()
     }
 
-    val startAnimation: () -> Unit = {
-        binding.ivRm.animate().apply {
-            duration = 200L
-            translationXBy(-360f)
-        }.withEndAction {
-            binding.ivRm.animate().apply {
-                duration = 400L
-                rotationX(360f)
-                translationXBy(360f)
-            }
-        }
-        // delays before moving to other activity
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
-                startActivity(
-                    Intent(this@IntroActivity, LoginActivity::class.java)
-                )
-                finish()
-            }, 1000
-        )
+    private fun showStaticIntro() {
+        splashHandler.postDelayed(navigateToLogin, STATIC_SPLASH_DELAY_MS)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        splashHandler.removeCallbacks(navigateToLogin)
         _binding = null
+    }
+
+    private companion object {
+        const val STATIC_SPLASH_DELAY_MS = 2500L
     }
 }

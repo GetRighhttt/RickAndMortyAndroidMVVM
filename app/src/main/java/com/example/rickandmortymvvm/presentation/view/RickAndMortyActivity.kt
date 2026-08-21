@@ -17,7 +17,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.core.util.applySystemBarsPadding
 import com.example.rickandmortymvvm.core.util.createSnackBar
@@ -179,12 +178,6 @@ class RickAndMortyActivity : AppCompatActivity() {
         }
     }
 
-    // Using shared preferences from Login activity to populate Home page action bar title
-    private fun getSharedPrefsData(): String? {
-        val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
-        return sharedPreferences.getString(LoginActivity.LOGIN, null)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true
@@ -215,10 +208,7 @@ class RickAndMortyActivity : AppCompatActivity() {
                 header = RMLoadStateAdapter { rmAdapter.retry() }, // paging3 retry method
                 footer = RMLoadStateAdapter { rmAdapter.retry() },
             )
-            layoutManager = StaggeredGridLayoutManager(
-                2,
-                GridLayoutManager.VERTICAL
-            )
+            layoutManager = GridLayoutManager(this@RickAndMortyActivity, 2)
             setHasFixedSize(true)
         }
         rmAdapter.setOnItemClickListener(::openDetails)
@@ -269,7 +259,7 @@ class RickAndMortyActivity : AppCompatActivity() {
         topUserAppBar.title = when (filters.gender) {
             CharacterGender.MALE -> getString(R.string.male)
             CharacterGender.FEMALE -> getString(R.string.female)
-            CharacterGender.ALL -> "${getSharedPrefsData()}'s Home Page"
+            CharacterGender.ALL -> getString(R.string.app_name)
         }
     }
 
